@@ -2,7 +2,8 @@
 
 ## Folder Structure:
 - Hardware
-	- Empty
+	- Cerradura
+		- firmware.ino
 - Backend
 	- Empty
 - Frontend
@@ -14,6 +15,8 @@
 - Empty List.
 
 ## To-Do List:
- - [ ] Create backend with a framework
- - [ ] Create frontend with a framework
- - [X] Create a GIT 
+- Hardware:
+	- [ ] Cerradura:
+		- [X] Conectar a AP
+		- [X] Conectar a servidor MQTT
+		- [ ] Controlar relé segun mensaje en topico
