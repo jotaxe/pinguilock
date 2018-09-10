@@ -4,7 +4,13 @@
 - Hardware
 	- Empty
 - Backend
-	- Empty
+	- Config
+	- public
+	- src
+		- hooks
+		- middleware
+		- services
+	- test
 - Frontend
 	- Empty
 - AndroidApp
@@ -14,6 +20,6 @@
 - Empty List.
 
 ## To-Do List:
- - [ ] Create backend with a framework
+ - [X] Create backend with a framework
  - [ ] Create frontend with a framework
- - [X] Create a GIT 
+ - [X] Create a GIT
