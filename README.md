@@ -20,3 +20,7 @@
 		- [X] Conectar a AP
 		- [X] Conectar a servidor MQTT
 		- [ ] Controlar relé segun mensaje en topico
+- Backend:
+	- [ ] Base de datos:
+		- [ ] crear modelos
+		- [ ] crear servicios
