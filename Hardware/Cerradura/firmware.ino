@@ -15,7 +15,7 @@ const int relayPin = 4;
 
 const char* ssid = "PI-nguilock";
 const char* password = "jota123456";
-const char* mqtt_server = "192.168.0.10";
+const char* mqtt_server = "192.168.0.23";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -64,7 +64,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   if ((char)payload[0] == '1') {
     digitalWrite(relayPin, HIGH);
     digitalWrite(redLed, HIGH);
-    delay(1000);
+    delay(8000);
     digitalWrite(relayPin, LOW);
     digitalWrite(redLed, LOW);
   } else {
