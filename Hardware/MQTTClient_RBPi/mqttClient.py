@@ -77,7 +77,7 @@ client.on_message = on_message
 client.connect(broker_adress)
 client.loop_start()
 client.subscribe("request0")
-time.sleep(15)
+time.sleep(5)
 while 1:
     continue
 
