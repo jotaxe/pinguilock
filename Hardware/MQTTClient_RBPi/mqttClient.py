@@ -4,8 +4,34 @@ import time
 import cv2
 import sys
 
+import pyzbar.pyzbar as pyzbar
+import numpy as np
 
 
+def decode(im):
+    decodedObjects = pyzbar.decode(im)
+
+    for obj in decodedObjects:
+        print("Type: ", obj.type)
+        print("Data: ", obj.data, '\n')
+    
+    return decodedObjects
+
+def check_QR(client):
+    videoCapture = cv2.VideoCapture(0)
+    time.sleep(3)
+    timeout = time.time() + 10
+    while True:
+        ret, frame = videoCapture.read()
+        decodedObjects = decode(frame)
+
+        print(len(decodedObjects))
+        if time.time() > timeout:
+            break
+        if len(decodedObjects) > 0:
+            cv2.imwrite("detectedQR-.jpg", frame)
+            client.publish("access0", "1")
+            break
 
 
 def on_message(client, userdata, message):
@@ -15,7 +41,7 @@ def on_message(client, userdata, message):
         check_face(client)
     else:
         if textMessage == "QRAuth":
-            client.publish("access0", "1")
+            check_QR(client)
 
 def check_face(client):
     cascPath = "haarcascade_frontalface_alt2.xml"
