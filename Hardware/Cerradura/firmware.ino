@@ -33,6 +33,7 @@ void setup() {
   pinMode(relayPin, OUTPUT);
 
   setup_wifi();
+  delay(2000)
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
 }
@@ -99,6 +100,7 @@ void reconnect() {
       String s_topic = request_topic + '/' + device_topic;
       Serial.println("connected to " + s_topic);
       const char* final_topic = s_topic.c_str();
+      Serial.print(final_topic);
       client.subscribe(final_topic);
     } else {
       Serial.print("failed, rc=");

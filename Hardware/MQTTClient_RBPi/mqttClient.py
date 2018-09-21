@@ -42,7 +42,7 @@ def on_message(client, userdata, message):
     messageArray = rawMessage.split(":")
     authMethod = messageArray[0]
     lockTopic = messageArray[1]
-
+    print(messageArray)
     if authMethod == "FaceAuth":
         user = messageArray[2]
         check_face(client, user, lockTopic)
@@ -77,9 +77,11 @@ def check_face(client, user, lockTopic):
             # AWS REKOGNITION (user)
             if user == "test":
                 client.publish(device_topic + "/" + lockTopic, "1")
+                print(device_topic + "/" + lockTopic)
                 break
             else:
                 client.publish(device_topic + "/" + lockTopic, "0")
+                print(device_topic + "/" + lockTopic)
                 break
 
 
