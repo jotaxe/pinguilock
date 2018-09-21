@@ -5,7 +5,7 @@
 
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
-
+#include <ESP8266HTTPClient.h>
 
 // Update these with values suitable for your network.
 
@@ -16,6 +16,9 @@ const int relayPin = 4;
 const char* ssid = "PI-nguilock";
 const char* password = "jota123456";
 const char* mqtt_server = "192.168.0.23";
+
+String request_topic = "request0";
+String device_topic = "access0";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -52,6 +55,12 @@ void setup_wifi() {
   }
   digitalWrite(redLed, LOW);
   digitalWrite(greenLed, HIGH);
+  HTTPClient http;
+  http.begin("http://192.168.0.23:8000/mqtt_info.html");
+  int httpCode = http.GET();
+  if(httpCode > 0){
+    request_topic = http.getString();
+  }
 
   Serial.println("");
   Serial.println("WiFi connected");
@@ -86,8 +95,11 @@ void reconnect() {
     Serial.print("Attempting MQTT connection...");
     // Attempt to connect
     if (client.connect("ESP8266Client")) {
-      Serial.println("connected");
-      client.subscribe("access0");
+      
+      String s_topic = request_topic + '/' + device_topic;
+      Serial.println("connected to " + s_topic);
+      const char* final_topic = s_topic.c_str();
+      client.subscribe(final_topic);
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());

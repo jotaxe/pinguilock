@@ -8,6 +8,8 @@ import pyzbar.pyzbar as pyzbar
 import numpy as np
 
 
+device_topic = "local_server0"
+
 def decode(im):
     decodedObjects = pyzbar.decode(im)
 
@@ -35,15 +37,20 @@ def check_QR(client):
 
 
 def on_message(client, userdata, message):
-    textMessage = str(message.payload.decode("utf-8"))
+    rawMessage = str(message.payload.decode("utf-8"))
     print("message received " + textMessage);
-    if textMessage == "FaceAuth":
-        check_face(client)
+    messageArray = rawMessage.split(":")
+    authMethod = messageArray[0]
+    lockTopic = messageArray[1]
+
+    if authMethod == "FaceAuth":
+        user = messageArray[2]
+        check_face(client, user, lockTopic)
     else:
-        if textMessage == "QRAuth":
+        if authMethod == "QRAuth":
             check_QR(client)
 
-def check_face(client):
+def check_face(client, user, lockTopic):
     cascPath = "haarcascade_frontalface_alt2.xml"
     faceCascade = cv2.CascadeClassifier(cascPath)
     videoCapture = cv2.VideoCapture(0)
@@ -67,8 +74,13 @@ def check_face(client):
             break
         if len(faces) > 0:
             cv2.imwrite("detectedFace-.jpg", frame )
-            client.publish("access0", "1")
-            break
+            # AWS REKOGNITION (user)
+            if user == "test":
+                client.publish(device_topic + "/" + lockTopic, "1")
+                break
+            else:
+                client.publish(device_topic + "/" + lockTopic, "0")
+                break
 
 
 broker_adress = "192.168.0.23" # Cambiar por la ip de AWS
@@ -76,7 +88,7 @@ client = mqtt.Client("rPi")
 client.on_message = on_message
 client.connect(broker_adress)
 client.loop_start()
-client.subscribe("request0")
+client.subscribe(device_topic)
 time.sleep(5)
 while 1:
     continue
