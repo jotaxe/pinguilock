@@ -38,7 +38,7 @@ def check_QR(client):
 
 def on_message(client, userdata, message):
     rawMessage = str(message.payload.decode("utf-8"))
-    print("message received " + textMessage);
+    print("message received " + rawMessage);
     messageArray = rawMessage.split(":")
     authMethod = messageArray[0]
     lockTopic = messageArray[1]
@@ -89,6 +89,7 @@ client.on_message = on_message
 client.connect(broker_adress)
 client.loop_start()
 client.subscribe(device_topic)
+print("waiting for messages")
 time.sleep(5)
 while 1:
     continue
