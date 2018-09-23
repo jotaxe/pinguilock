@@ -46,4 +46,5 @@
 - Backend:
 	- [ ] Base de datos:
 		- [ ] crear modelos
-		- [ ] crear servicios
+		- [X] crear servicios
+		- [ ] definir relaciones modelos
