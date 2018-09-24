@@ -18,6 +18,10 @@ module.exports = function (app) {
     role: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    auth0: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   }, {
     hooks: {

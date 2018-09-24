@@ -15,7 +15,7 @@ module.exports = function (app) {
       allowNull: false
     },
     secret_code: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false
     },
     timeout: {
@@ -24,10 +24,6 @@ module.exports = function (app) {
     },
     valid: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
-    },
-    auth0_token: {
-      type: DataTypes.STRING,
       allowNull: false
     }
   }, {

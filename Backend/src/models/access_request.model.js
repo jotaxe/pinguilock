@@ -11,7 +11,7 @@ module.exports = function (app) {
       allowNull: false
     },
     lock_topic: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false
     },
     method: {
@@ -19,18 +19,13 @@ module.exports = function (app) {
       allowNull: false
     },
     successfull: {
-      type: DataTypes.STRING,
+      type: DataTypes.BOOLEAN,
       allowNull: false
     },
     access_image: {
       type: DataTypes.STRING,
       allowNull: false
-    },
-    auth0_token: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-
+    }
   }, {
     hooks: {
       beforeCount(options) {
