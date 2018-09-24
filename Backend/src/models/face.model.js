@@ -5,30 +5,16 @@ const DataTypes = Sequelize.DataTypes;
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const otp = sequelizeClient.define('otp', {
+  const face = sequelizeClient.define('face', {
     user_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
-    granted_by_user: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    secret_code: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    timeout: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
-    valid: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false
-    },
-    auth0_token: {
+    image_path: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unique:true
     }
   }, {
     hooks: {
@@ -39,10 +25,10 @@ module.exports = function (app) {
   });
 
   // eslint-disable-next-line no-unused-vars
-  otp.associate = function (models) {
+  face.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
   };
 
-  return otp;
+  return face;
 };

@@ -1,14 +1,16 @@
+// See http://docs.sequelizejs.com/en/latest/docs/models-definition/
+// for more of what you can do here.
 const Sequelize = require('sequelize');
 const DataTypes = Sequelize.DataTypes;
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const userFace = sequelizeClient.define('user_face', {
+  const key = sequelizeClient.define('key', {
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    img_route: {
+    lock_topic: {
       type: DataTypes.STRING,
       allowNull: false
     }
@@ -20,9 +22,11 @@ module.exports = function (app) {
     }
   });
 
-  userFace.associate = function (models) {
-  
+  // eslint-disable-next-line no-unused-vars
+  key.associate = function (models) {
+    // Define associations here
+    // See http://docs.sequelizejs.com/en/latest/docs/associations/
   };
 
-  return userFace;
+  return key;
 };

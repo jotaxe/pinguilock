@@ -1,4 +1,4 @@
-// Initializes the `User` service on path `/user`
+// Initializes the `user` service on path `/user`
 const createService = require('feathers-sequelize');
 const createModel = require('../../models/user.model');
 const hooks = require('./user.hooks');

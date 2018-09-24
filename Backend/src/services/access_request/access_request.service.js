@@ -1,7 +1,7 @@
-// Initializes the `user_face` service on path `/user-face`
+// Initializes the `access_request` service on path `/access-request`
 const createService = require('feathers-sequelize');
-const createModel = require('../../models/user_face.model');
-const hooks = require('./user_face.hooks');
+const createModel = require('../../models/access_request.model');
+const hooks = require('./access_request.hooks');
 
 module.exports = function (app) {
   const Model = createModel(app);
@@ -13,10 +13,10 @@ module.exports = function (app) {
   };
 
   // Initialize our service with any options it requires
-  app.use('/user-face', createService(options));
+  app.use('/access-request', createService(options));
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('user-face');
+  const service = app.service('access-request');
 
   service.hooks(hooks);
 };

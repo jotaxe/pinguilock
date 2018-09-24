@@ -22,53 +22,38 @@
 		- middleware
 			- index.js
 		- models
-			- acceess_device.model.js
-			- otp_access_request.model.js
-			- otp_user.model.js
 			- otp.model.js
-			- user_access_request.model.js
-			- user_face.model.js
-			- user_key.model.js
+			- face.model.js
+			- access_request.model.js
+			- key.model.js
 			- user.model.js
 		- services
-			- access_device
-				- access_device.hooks.js
-				- access_device.service.js
 			- otp
 				- otp.hooks.js
 				- otp.service.js
-			- otp_access_request
-				-	otp_access_request.hooks.js
-				-	otp_access_request.service.js
-			- otp_user
-				- otp_user.hooks.js
-				- otp_user.service.js
+			- access_request
+				-	access_request.hooks.js
+				-	access_request.service.js
+			- face
+				- face.hooks.js
+				- face.service.js
+			- key
+				- key.hooks.js
+				- key.service.js
 			- user
 				- user.hooks.js
 				- user.service.js
-			- user_access_request
-				- user_access_request.hooks.js
-				- user_access_request.service.js
-			- user_face
-				- user_face.hooks.js
-				- user_face.service.js
-			- user_key
-				- user_key.hooks.js
-				- user_key.service.js
 			- index.js
 		- app.js
 		- app.hooks.js
 		- channels.js
 	- test
 		- services
-			- access_device.test.js
-			- otp_access_request.test.js
-			- otp_user.test.js
 			- otp.test.js
-			- user_access_request.test.js
-			- user_face.test.js
-			- user_key.test.js
 			- user.test.js
+			- access_request.test.js
+			- face.test.js
+			- key.test.js
 		- app.test.js
 - Frontend
 	- Empty
