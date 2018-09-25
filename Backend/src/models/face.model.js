@@ -6,11 +6,6 @@ const DataTypes = Sequelize.DataTypes;
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
   const face = sequelizeClient.define('face', {
-    user_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      unique: true
-    },
     image_path: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -26,8 +21,7 @@ module.exports = function (app) {
 
   // eslint-disable-next-line no-unused-vars
   face.associate = function (models) {
-    // Define associations here
-    // See http://docs.sequelizejs.com/en/latest/docs/associations/
+    face.belongsTo(models.user,{foreignKey:'user_id'})
   };
 
   return face;

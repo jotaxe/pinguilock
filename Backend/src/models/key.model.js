@@ -6,10 +6,6 @@ const DataTypes = Sequelize.DataTypes;
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
   const key = sequelizeClient.define('key', {
-    user_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
     lock_topic: {
       type: DataTypes.STRING,
       allowNull: false
@@ -24,7 +20,7 @@ module.exports = function (app) {
 
   // eslint-disable-next-line no-unused-vars
   key.associate = function (models) {
-    // Define associations here
+    key.belongsTo(models.user,{foreignKey:'user_id'})
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
   };
 

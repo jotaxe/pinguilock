@@ -33,8 +33,10 @@ module.exports = function (app) {
 
   // eslint-disable-next-line no-unused-vars
   user.associate = function (models) {
-    // Define associations here
-    // See http://docs.sequelizejs.com/en/latest/docs/associations/
+    user.hasMany(models.face,{foreignKey:'user_id'})
+    user.hasMany(models.key,{foreignKey:'user_id'})
+    user.hasMany(models.access_request,{foreignKey:'user_id'})
+    user.hasMany(models.otp,{foreignKey:'user_id'})
   };
 
   return user;

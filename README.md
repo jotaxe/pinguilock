@@ -88,8 +88,10 @@
 		- [ ] Conexión API pinguilock (HTTP)
 
 - Backend:
-	- [ ] Base de datos:
+	- [X] Base de datos:
 		- [X] crear modelos
 		- [X] crear servicios
-		- [ ] definir relaciones modelos
-		- [ ] aprovacion tipos de variables
+		- [X] definir relaciones modelos
+		- [X] aprovacion tipos de variables
+	- [ ] Authenticacion Auth0
+		- [ ]servicio Auth0

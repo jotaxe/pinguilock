@@ -6,14 +6,6 @@ const DataTypes = Sequelize.DataTypes;
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
   const otp = sequelizeClient.define('otp', {
-    user_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    granted_by_user: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
     secret_code: {
       type: DataTypes.STRING,
       allowNull: false
@@ -36,8 +28,9 @@ module.exports = function (app) {
 
   // eslint-disable-next-line no-unused-vars
   otp.associate = function (models) {
-    // Define associations here
-    // See http://docs.sequelizejs.com/en/latest/docs/associations/
+    otp.belongsTo(models.user,{foreignKey:'user_id'})
+    otp.belongsTo(models.user,{foreignKey:'granted_by_user'})
+
   };
 
   return otp;
