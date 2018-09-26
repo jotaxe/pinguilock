@@ -1,6 +1,6 @@
 {
   "name": "localserver",
-  "description": "localserver RBPi",
+  "description": "localserver",
   "version": "0.0.0",
   "homepage": "",
   "main": "src",
@@ -35,11 +35,8 @@
     "compression": "^1.7.3",
     "cors": "^2.8.4",
     "feathers-nedb": "^3.1.0",
-    "feathers-sequelize": "^3.1.2",
     "helmet": "^3.12.0",
-    "mysql2": "^1.5.3",
     "nedb": "^1.8.0",
-    "sequelize": "^4.37.6",
     "serve-favicon": "^2.5.0",
     "winston": "^3.0.0"
   },

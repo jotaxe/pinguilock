@@ -1,32 +1,12 @@
-// See http://docs.sequelizejs.com/en/latest/docs/models-definition/
-// for more of what you can do here.
-const Sequelize = require('sequelize');
-const DataTypes = Sequelize.DataTypes;
+const NeDB = require('nedb');
+const path = require('path');
 
 module.exports = function (app) {
-  const sequelizeClient = app.get('sequelizeClient');
-  const devices = sequelizeClient.define('devices', {
-    cam_topic: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    lock_topic:{
-      type: DataTypes.STRING,
-      allowNull: false
-    }
-  }, {
-    hooks: {
-      beforeCount(options) {
-        options.raw = true;
-      }
-    }
+  const dbPath = app.get('nedb');
+  const Model = new NeDB({
+    filename: path.join(dbPath, 'devices.db'),
+    autoload: true
   });
 
-  // eslint-disable-next-line no-unused-vars
-  devices.associate = function (models) {
-    // Define associations here
-    // See http://docs.sequelizejs.com/en/latest/docs/associations/
-  };
-
-  return devices;
+  return Model;
 };

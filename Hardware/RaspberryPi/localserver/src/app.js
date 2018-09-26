@@ -16,8 +16,6 @@ const services = require('./services');
 const appHooks = require('./app.hooks');
 const channels = require('./channels');
 
-const sequelize = require('./sequelize');
-
 const app = express(feathers());
 
 // Load app configuration
@@ -34,9 +32,6 @@ app.use('/', express.static(app.get('public')));
 
 // Set up Plugins and providers
 app.configure(express.rest());
-
-
-app.configure(sequelize);
 
 
 // Configure other middleware (see `middleware/index.js`)

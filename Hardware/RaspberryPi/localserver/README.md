@@ -1,6 +1,6 @@
 # localserver
 
-> localserver RBPi
+> localserver
 
 ## About
 

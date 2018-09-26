@@ -1,5 +1,5 @@
 // Initializes the `devices` service on path `/devices`
-const createService = require('feathers-sequelize');
+const createService = require('feathers-nedb');
 const createModel = require('../../models/devices.model');
 const hooks = require('./devices.hooks');
 
