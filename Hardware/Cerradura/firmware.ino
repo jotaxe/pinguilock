@@ -18,7 +18,7 @@ const char* password = "jota123456";
 const char* mqtt_server = "192.168.0.23";
 
 String request_topic = "local_server0";
-String device_topic = "local_server0/lock0";
+String device_topic = "lock0";
 
 WiFiClient espClient;
 PubSubClient client(espClient);

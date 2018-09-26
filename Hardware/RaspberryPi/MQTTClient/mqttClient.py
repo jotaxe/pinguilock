@@ -25,7 +25,7 @@ def on_message(client, userdata, message):
     authMethod = messageArray[1]
     lockTopic = device_topic + "/" + messageArray[2]
     camTopic = device_topic + "/" + getCam(lockTopic)
-    client.publish(camTopic, userOrQR + ":" + authMethod + ":" lockTopic)
+    client.publish(camTopic, userOrQR + ":" + authMethod + ":" + lockTopic)
 
 client.on_message = on_message
 client.connect(broker_adress)

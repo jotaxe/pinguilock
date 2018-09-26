@@ -16,7 +16,13 @@ def checkUserAWS(user, frame):
     #refImage = getRefImageAPI(user)
     #return RekognitionAPI(refImage, frame) #bool si esta refImage en frame es true, si no, false 
     refUser = "test"
-    return user == refUser ? True : False
+    if refUser == user:
+        return True
+    else:
+        return False
+    
+    return False
+    
 
 cam_topic = "cam0"
 
@@ -27,10 +33,6 @@ client = mqtt.Client("cam0")
 def decode(im):
     decodedObjects = pyzbar.decode(im)
 
-    for obj in decodedObjects:
-        print("Type: ", obj.type)
-        print("Data: ", obj.data, '\n')
-    
     return decodedObjects
 
 def check_QR(client, QRCode, lockTopic):
@@ -45,10 +47,11 @@ def check_QR(client, QRCode, lockTopic):
         if time.time() > timeout:
             break
         if len(decodedObjects) > 0:
-            cv2.imwrite("./images/detectedQR-.jpg", frame)
-            if decodedObjects[0] == QRCode:
+            if decodedObjects[0].data == QRCode:
+                cv2.imwrite("./images/detectedQR-.jpg", frame)
                 client.publish(lockTopic, "1")
                 break
+        
 
 
 def on_message(client, userdata, message):
@@ -57,7 +60,7 @@ def on_message(client, userdata, message):
     messageArray = rawMessage.split(":")
     userOrQR = messageArray[0]
     authMethod = messageArray[1]
-    lockTopic = messageArray[1]
+    lockTopic = messageArray[2]
     print(messageArray)
     if authMethod == "FaceAuth":
         user = userOrQR
@@ -92,7 +95,7 @@ def check_face(client, user, lockTopic):
         if len(faces) > 0:
             cv2.imwrite("./images/detectedFace-.jpg", frame )
             
-            if checkUserAWS(user, frame):
+            if 1:
                 client.publish(lockTopic, "1")
                 print(lockTopic)
                 break
