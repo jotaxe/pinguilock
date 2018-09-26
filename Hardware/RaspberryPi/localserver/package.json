@@ -1,6 +1,6 @@
 {
   "name": "localserver",
-  "description": "RBPi Local server",
+  "description": "localserver RBPi",
   "version": "0.0.0",
   "homepage": "",
   "main": "src",
@@ -32,7 +32,6 @@
     "@feathersjs/errors": "^3.3.0",
     "@feathersjs/express": "^1.2.2",
     "@feathersjs/feathers": "^3.1.7",
-    "@feathersjs/socketio": "^3.2.1",
     "compression": "^1.7.3",
     "cors": "^2.8.4",
     "helmet": "^3.12.0",
