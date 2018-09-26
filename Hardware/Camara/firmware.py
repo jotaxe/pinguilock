@@ -24,7 +24,7 @@ def checkUserAWS(user, frame):
     return False
     
 
-cam_topic = "cam0"
+cam_topic = getDev + "/" + "cam0"
 
 broker_adress = "192.168.0.23" # Cambiar por la ip de AWS
 client = mqtt.Client("cam0")
@@ -94,15 +94,19 @@ def check_face(client, user, lockTopic):
             break
         if len(faces) > 0:
             cv2.imwrite("./images/detectedFace-.jpg", frame )
-            
-            if 1:
-                client.publish(lockTopic, "1")
-                print(lockTopic)
-                break
+            '''
+            isUserInFrame = checkUserAWS(user, frame)
+            if isUserInFrame:
+            '''
+            client.publish(lockTopic, "1")
+            print(lockTopic)
+            break
+            '''
             else:
                 client.publish(lockTopic, "0")
                 print(lockTopic)
                 break
+            '''
 
 
 
@@ -110,7 +114,7 @@ client.on_message = on_message
 client.connect(broker_adress)
 client.loop_start()
 client.subscribe(cam_topic)
-print("waiting for messages")
+print("CAM Ready")
 time.sleep(5)
 while 1:
     continue

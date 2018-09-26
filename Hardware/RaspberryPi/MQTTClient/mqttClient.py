@@ -31,7 +31,7 @@ client.on_message = on_message
 client.connect(broker_adress)
 client.loop_start()
 client.subscribe(device_topic)
-print("waiting for messages")
+print("RBPI MQQTT Client Ready")
 time.sleep(5)
 while 1:
     continue
