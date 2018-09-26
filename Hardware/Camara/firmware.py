@@ -109,7 +109,7 @@ def check_face(client, user, lockTopic):
 client.on_message = on_message
 client.connect(broker_adress)
 client.loop_start()
-client.subscribe(device_topic)
+client.subscribe(cam_topic)
 print("waiting for messages")
 time.sleep(5)
 while 1:
