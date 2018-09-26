@@ -13,8 +13,9 @@ broker_adress = "192.168.0.23" # Cambiar por la ip de AWS
 client = mqtt.Client("rPi")
 
 def getCam(lockTopic):
-    #return camTopic = fetchCamFromLocalserverAPI(lockTopic)
-    return camTopic = "cam0"
+    #camTopic = fetchCamFromLocalserverAPI(lockTopic)
+    camTopic = "cam0"
+    return camTopic
 
 def on_message(client, userdata, message):
     rawMessage = str(message.payload.decode("utf-8"))

@@ -8,8 +8,9 @@ import pyzbar.pyzbar as pyzbar
 import numpy as np
 
 def getDev():
-    #return device_topic = fetchDeviceDataLocalserverAPI()
-    return device_topic = "local_server0"
+    # device_topic = fetchDeviceDataLocalserverAPI()
+     device_topic = "local_server0"
+     return device_topic
 
 def checkUserAWS(user, frame):
     #refImage = getRefImageAPI(user)
