@@ -24,7 +24,7 @@ def checkUserAWS(user, frame):
     return False
     
 
-cam_topic = getDev + "/" + "cam0"
+cam_topic = getDev() + "/" + "cam0"
 
 broker_adress = "192.168.0.23" # Cambiar por la ip de AWS
 client = mqtt.Client("cam0")
