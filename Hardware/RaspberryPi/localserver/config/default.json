@@ -5,5 +5,7 @@
   "paginate": {
     "default": 10,
     "max": 50
-  }
+  },
+  "mysql": "mysql://root:@localhost:3306/localserver",
+  "nedb": "../data"
 }
