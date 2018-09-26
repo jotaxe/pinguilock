@@ -85,7 +85,7 @@ def check_face(client, user, lockTopic):
                 break
 
 
-broker_adress = "192.168.0.23" # Cambiar por la ip de AWS
+broker_adress = "localhost" # Cambiar por la ip de AWS
 client = mqtt.Client("rPi")
 client.on_message = on_message
 client.connect(broker_adress)
