@@ -17,8 +17,8 @@ const char* ssid = "PI-nguilock";
 const char* password = "jota123456";
 const char* mqtt_server = "192.168.0.23";
 
-String request_topic = "request0";
-String device_topic = "access0";
+String request_topic = "local_server0";
+String device_topic = "local_server0/lock0";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -33,7 +33,7 @@ void setup() {
   pinMode(relayPin, OUTPUT);
 
   setup_wifi();
-  delay(2000)
+  delay(2000);
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
 }

@@ -9,84 +9,23 @@ import numpy as np
 
 
 device_topic = "local_server0"
+broker_adress = "192.168.0.23" # Cambiar por la ip de AWS
+client = mqtt.Client("rPi")
 
-def decode(im):
-    decodedObjects = pyzbar.decode(im)
-
-    for obj in decodedObjects:
-        print("Type: ", obj.type)
-        print("Data: ", obj.data, '\n')
-    
-    return decodedObjects
-
-def check_QR(client):
-    videoCapture = cv2.VideoCapture(0)
-    time.sleep(3)
-    timeout = time.time() + 10
-    while True:
-        ret, frame = videoCapture.read()
-        decodedObjects = decode(frame)
-
-        print(len(decodedObjects))
-        if time.time() > timeout:
-            break
-        if len(decodedObjects) > 0:
-            cv2.imwrite("detectedQR-.jpg", frame)
-            client.publish("access0", "1")
-            break
-
+def getCam(lockTopic):
+    #return camTopic = fetchCamFromLocalserverAPI(lockTopic)
+    return camTopic = "cam0"
 
 def on_message(client, userdata, message):
     rawMessage = str(message.payload.decode("utf-8"))
     print("message received " + rawMessage);
     messageArray = rawMessage.split(":")
-    authMethod = messageArray[0]
-    lockTopic = messageArray[1]
-    print(messageArray)
-    if authMethod == "FaceAuth":
-        user = messageArray[2]
-        check_face(client, user, lockTopic)
-    else:
-        if authMethod == "QRAuth":
-            check_QR(client)
+    userOrQR = messageArray[0]
+    authMethod = messageArray[1]
+    lockTopic = device_topic + "/" + messageArray[2]
+    camTopic = device_topic + "/" + getCam(lockTopic)
+    client.publish(camTopic, userOrQR + ":" + authMethod + ":" lockTopic)
 
-def check_face(client, user, lockTopic):
-    cascPath = "haarcascade_frontalface_alt2.xml"
-    faceCascade = cv2.CascadeClassifier(cascPath)
-    videoCapture = cv2.VideoCapture(0)
-    time.sleep(3)
-    timeout = time.time() + 10
-    while True:
-    
-        ret, frame = videoCapture.read()
-        
-        faces = faceCascade.detectMultiScale(
-            frame,
-            scaleFactor=1.1,
-            minNeighbors=5,
-            minSize=(30, 30),
-            flags=cv2.CASCADE_SCALE_IMAGE
-        )
-
-        print(len(faces))
-
-        if time.time() > timeout:
-            break
-        if len(faces) > 0:
-            cv2.imwrite("detectedFace-.jpg", frame )
-            # AWS REKOGNITION (user)
-            if user == "test":
-                client.publish(device_topic + "/" + lockTopic, "1")
-                print(device_topic + "/" + lockTopic)
-                break
-            else:
-                client.publish(device_topic + "/" + lockTopic, "0")
-                print(device_topic + "/" + lockTopic)
-                break
-
-
-broker_adress = "localhost" # Cambiar por la ip de AWS
-client = mqtt.Client("rPi")
 client.on_message = on_message
 client.connect(broker_adress)
 client.loop_start()
