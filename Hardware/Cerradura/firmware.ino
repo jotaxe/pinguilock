@@ -19,8 +19,8 @@ const char* ssid = "PI-nguilock";
 const char* password = "jota123456";
 const char* mqtt_server = "192.168.0.23";
 
-const char * request_topic = "local_server0";
-const char * device_topic = "lock0";
+String request_topic = "local_server0";
+String device_topic = "lock0";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -64,7 +64,9 @@ void setup_wifi() {
   if(httpCode > 0){
     StaticJsonBuffer<200> jsonBuffer;
     JsonObject& root = jsonBuffer.parseObject(http.getString());
-    request_topic = root["device_topic"]; 
+    const char * temp = root["device_topic"];
+    request_topic = String(temp); 
+    Serial.print("Resultado root: ");
     Serial.println(request_topic);
   }
 
@@ -101,12 +103,8 @@ void reconnect() {
     Serial.print("Attempting MQTT connection...");
     // Attempt to connect
     if (client.connect("ESP8266Client")) {
-      
-      char c_topic[100];
-      strcpy(c_topic, request_topic);
-      strcat(c_topic, "/");
-      strcat(c_topic, device_topic);
-      String s_topic = String(c_topic);
+     
+      String s_topic = request_topic + "/" + device_topic;
       Serial.println("connected to " + s_topic);
       const char* final_topic = s_topic.c_str();
       Serial.print(final_topic);
