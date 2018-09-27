@@ -99,7 +99,7 @@ def check_face(client, user, lockTopic):
             if isUserInFrame:
             '''
             isUserInFrame = checkUserAWS(user, frame)
-            if isUserInFrame = checkUserAWS(user, frame):
+            if isUserInFrame:
                 client.publish(lockTopic, "1")
                 print(lockTopic)
                 break
