@@ -10,7 +10,7 @@ import numpy as np
 import urllib, json
 
 device_topic = "local_server0"
-broker_adress = "192.168.0.23" # Cambiar por la ip de AWS
+broker_adress = "pinguilock.local" # Cambiar por la ip de AWS
 client = mqtt.Client("rPi")
 
 def fetchCamFromLocalserverAPI(lockTopic):
