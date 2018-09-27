@@ -19,8 +19,8 @@ def fetchCamFromLocalserverAPI(lockTopic):
     return data["camera"]
 
 def getCam(lockTopic):
-    camTopic = fetchCamFromLocalserverAPI(lockTopic)
-    #camTopic = "cam0"
+    #camTopic = fetchCamFromLocalserverAPI(lockTopic)
+    camTopic = "cam0"
     return camTopic
 
 def on_message(client, userdata, message):
