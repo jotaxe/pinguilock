@@ -1,3 +1,4 @@
+
 /*
  firmware 0.0.1 
 
@@ -6,6 +7,7 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include <ESP8266HTTPClient.h>
+#include <ArduinoJson.h>
 
 // Update these with values suitable for your network.
 
@@ -15,10 +17,10 @@ const int relayPin = 4;
 
 const char* ssid = "PI-nguilock";
 const char* password = "jota123456";
-const char* mqtt_server = "192.168.0.23";
+const char* mqtt_server = "pinguilock.local";
 
-String request_topic = "request0";
-String device_topic = "access0";
+String request_topic = "local_server0";
+String device_topic = "lock0";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -33,7 +35,7 @@ void setup() {
   pinMode(relayPin, OUTPUT);
 
   setup_wifi();
-  delay(2000)
+  delay(2000);
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
 }
@@ -57,10 +59,15 @@ void setup_wifi() {
   digitalWrite(redLed, LOW);
   digitalWrite(greenLed, HIGH);
   HTTPClient http;
-  http.begin("http://192.168.0.23:8000/mqtt_info.html");
+  http.begin("http://pinguilock.local:3030/mqtt-info/1");
   int httpCode = http.GET();
   if(httpCode > 0){
-    request_topic = http.getString();
+    StaticJsonBuffer<200> jsonBuffer;
+    JsonObject& root = jsonBuffer.parseObject(http.getString());
+    const char * temp = root["device_topic"];
+    request_topic = String(temp); 
+    Serial.print("Resultado root: ");
+    Serial.println(request_topic);
   }
 
   Serial.println("");
@@ -96,8 +103,8 @@ void reconnect() {
     Serial.print("Attempting MQTT connection...");
     // Attempt to connect
     if (client.connect("ESP8266Client")) {
-      
-      String s_topic = request_topic + '/' + device_topic;
+     
+      String s_topic = request_topic + "/" + device_topic;
       Serial.println("connected to " + s_topic);
       const char* final_topic = s_topic.c_str();
       Serial.print(final_topic);
