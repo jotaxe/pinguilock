@@ -13,13 +13,13 @@ module.exports = function (app) {
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     role: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
-    auth0: {
+    googleId: {
       type: DataTypes.STRING,
       allowNull: false
     }
