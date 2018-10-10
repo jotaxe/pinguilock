@@ -7,6 +7,11 @@ module.exports = function (app) {
     filename: path.join(dbPath, 'mqtt-info.db'),
     autoload: true
   });
-
+  /**
+   * {
+   *  _id: "1"
+   *  device_name: string
+   * }
+   */
   return Model;
 };
