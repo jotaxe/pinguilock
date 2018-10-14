@@ -5,7 +5,6 @@ function customizeGoogleProfile(){
    console.log("DATA----> :" ,hook.data)
    hook.data.email = hook.data.google.profile.emails
    .find(email => email.type==='account').value
-
    hook.data.name = hook.data.google.profile.displayName
   }
   return Promise.resolve(hook);
