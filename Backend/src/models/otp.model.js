@@ -12,7 +12,7 @@ module.exports = function (app) {
     },
     timeout: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: true
     },
     valid: {
       type: DataTypes.BOOLEAN,

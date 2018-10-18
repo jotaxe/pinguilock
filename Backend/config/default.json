@@ -24,7 +24,7 @@
       "algorithm": "HS256",
       "expiresIn": "1d"
     },
-    "auth0": {
+      "auth0": {
       "clientID": "722683943139-t6d2rtpcptrbt7l292c4rnmqdl2v446v.apps.googleusercontent.com",
       "clientSecret": "NpRgNDqOoQY77AlQIMyUoRHQ",
       "successRedirect": "/",
