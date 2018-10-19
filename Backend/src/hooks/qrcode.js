@@ -15,10 +15,12 @@ module.exports = function (options = {}) {
         return text;
     }
     var secret_code =  makeid();
-    context.data.secret_code = secret_code;
+    var time = new Date();
+    var timeout = new Date(time);
 
-    // Metadata podria ser un checksum
-    //devolverlo en un hook de after var json = {"secret_code":secret_code, "metadata": metadata }
+    timeout.setHours(time.getHours() + 3 );
+    context.data.timeout = timeout;
+    context.data.secret_code = secret_code;
     return context;
   };
 };
