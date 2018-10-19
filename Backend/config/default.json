@@ -10,7 +10,8 @@
   "authentication": {
     "secret": "037b494135f8ccbf04e617b2a9f3cd7834f16e0726e86b9b4311c0152008b2ee10c7a2db1c2b8830ff16c6acd23dc147c70f60c1a328e1496fee07dedce55a156c6417978be5fe360237a40791e6645e18179109a2184dabb532ca82d4a33f9774938442c4e3dbc444de17152f1b746858b4e8edbc606806a673a593f4f681da46268217fb7ff547f1848941047fc1be3a2646b0ed4a97228902df2fd5987e4805f3e755336ac5842d34590b55a3156935712b393a2e40a29875880961b62d7b2864fef4a8e91cf001c383e568fa02ce2dded1d9693d341fd3f9e434e132d1db4d9e9a15ad64f3f1a5e898bac05286ff1aea4d3020234f0a3b10bd56b59d94cd",
     "strategies": [
-      "jwt"
+      "jwt",
+      "google-token"
     ],
     "path": "/authentication",
     "service": "user",
@@ -23,15 +24,6 @@
       "issuer": "feathers",
       "algorithm": "HS256",
       "expiresIn": "1d"
-    },
-      "auth0": {
-      "clientID": "722683943139-t6d2rtpcptrbt7l292c4rnmqdl2v446v.apps.googleusercontent.com",
-      "clientSecret": "NpRgNDqOoQY77AlQIMyUoRHQ",
-      "successRedirect": "/",
-      "domain": "mydomain.auth0.com",
-      "scopes": [
-        "profile"
-      ]
     },
     "google": {
       "clientID": "722683943139-t6d2rtpcptrbt7l292c4rnmqdl2v446v.apps.googleusercontent.com",
