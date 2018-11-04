@@ -18,9 +18,10 @@ module.exports = function (options = {}) {
     var time = new Date();
     var timeout = new Date(time);
 
-    timeout.setHours(time.getHours() + 3 );
+    timeout.setHours(time.getHours() + 1);
     context.data.timeout = timeout;
     context.data.secret_code = secret_code;
+    context.data.valid = true;
     return context;
   };
 };

@@ -7,11 +7,18 @@ const qrcode = require('../../hooks/qrcode');
 const jsonqrcode = require('../../hooks/jsonqrcode');
 
 
+const otpexpire = require('../../hooks/otpexpire');
+
+
+const otpvalid = require('../../hooks/otpvalid');
+
+
+
 module.exports = {
   before: {
     all: [authenticate('jwt')],
     find: [],
-    get: [],
+    get: [otpvalid()],
     create: [qrcode()],
     update: [qrcode()],
     patch: [],
@@ -21,7 +28,7 @@ module.exports = {
   after: {
     all: [],
     find: [],
-    get: [],
+    get: [otpexpire()],
     create: [jsonqrcode()],
     update: [],
     patch: [],
