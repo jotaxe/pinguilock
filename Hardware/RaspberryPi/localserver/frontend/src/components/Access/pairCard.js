@@ -39,18 +39,22 @@ class PairCard extends Component {
     
     return (
       <Card className={classes.card}>
-        <CardContent>
+        <CardContent style={{paddingBottom: '6px'}}>
           <Typography className={classes.title}   align="center" variant="caption">
               <FontAwesomeIcon icon={faLock} align="center"/>
-              <br/>
-              /{pair.lock_name}
           </Typography> 
+          <Typography className={classes.title}   align="center" variant="caption">
+            /{pair.lock_name}
+          </Typography> 
+          
           <Divider inset className={classes.divider}/>
           <Typography className={classes.title} color="textSecondary"  align="center" variant="caption">
               <FontAwesomeIcon icon={faVideo} />
-              <br/>
-              /{pair.cam_name}
           </Typography>
+          <Typography className={classes.title}   align="center" variant="caption">
+            /{pair.cam_name}
+          </Typography> 
+          
         </CardContent>
         <CardActions>
           <Button size="small" onClick={this.deleteClick}>Delete</Button>

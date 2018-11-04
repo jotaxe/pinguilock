@@ -10,15 +10,11 @@ export default class Home extends Component {
     }
   }
   componentDidMount(){
-    Promise.all(getAdmin()).then((adminData) => {
-      this.setState({
-        admin: adminData.email
-      })
-    }).catch(() => {
-      alert("Admin not set")
+    Promise.resolve(getMQTTInfo()).then((devData) => {
+      this.setState({device_name: devData.device_name});
     }).then( () => {
-      Promise.resolve(getMQTTInfo()).then((devData) => {
-        this.setState({device_name: devData.device_name});
+      getAdmin().then( (adminInfo) => {
+        this.setState({admin: adminInfo.mail})
       })
     });
 

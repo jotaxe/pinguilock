@@ -7,7 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import {sidebarItems} from './sidebarItems';
-import {routes} from "../Routes";
+import { routes } from "../Routes";
 import Avatar from '@material-ui/core/Avatar';
 
 const drawerWidth = 260;
@@ -19,6 +19,7 @@ const styles = theme => ({
         overflow: 'hidden',
         position: 'relative',
         display: 'flex',
+        height: '600px'
     },
     appBar: {
         zIndex: theme.zIndex.drawer + 1
@@ -60,7 +61,7 @@ function Sidebar(props){
             </Drawer>
             <main className={classes.content} >
                 <div>
-                {routes}
+                    {routes}
                 </div>
             </main>
         </div>

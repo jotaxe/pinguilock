@@ -18,22 +18,12 @@ export default class Access extends Component {
     }
   }
   componentDidMount(){
-    Promise.all(getAdmin()).then((adminData) => {
-      this.setState({
-        admin: adminData.email
-      })
-    }).catch(() => {
-      alert("Admin not set")
-    }).then( () => {
-      Promise.resolve(getDevices()).then((devData) => {
-        this.setState({devices: devData.data});
-      })
-    }).then(() => {
-      Promise.resolve(getPairs()).then((PairData) => {
-        this.setState({pairs: PairData.data});
-      })
-    });
-
+    Promise.resolve(getDevices()).then((devData) => {
+      this.setState({devices: devData.data});
+    })
+    Promise.resolve(getPairs()).then((PairData) => {
+      this.setState({pairs: PairData.data});
+    })
     
   }
   render() {
@@ -53,7 +43,6 @@ export default class Access extends Component {
 
       };
 
-    const {devices, pairs} = this.state;
     return (
       <div>
           Access Devices
@@ -64,8 +53,8 @@ export default class Access extends Component {
             <GridListTile>
               <AddDeviceCard/>
             </GridListTile>
-            {devices ? 
-            devices.map((device) => {
+            {this.state.devices ? 
+            this.state.devices.map((device) => {
                 return (
                     <GridListTile key={device._id}>
                         <DeviceCard
@@ -86,8 +75,8 @@ export default class Access extends Component {
             <GridListTile>
               <AddPairCard/>
             </GridListTile>
-            {pairs ? 
-            pairs.map((pair) => {
+            {this.state.pairs ? 
+            this.state.pairs.map((pair) => {
               return (
                 <GridListTile key={pair._id}>
                   <PairCard

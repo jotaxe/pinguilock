@@ -2,7 +2,7 @@
 const feathers = require('@feathersjs/feathers');
 const rest = require('@feathersjs/rest-client');
 const app = feathers();
-const restClient = rest('http://localhost:3030')
+const restClient = rest('http://localhost:3031')
 
 
 app.configure(restClient.fetch(window.fetch));
@@ -13,6 +13,10 @@ export function getMQTTInfo(){
 
 export function getAdmin(){
     return app.service("admin-user").get(1);
+}
+
+export function setAdmin(adminMail){
+    return app.service("admin-user").create({_id: "1", mail: adminMail})
 }
 
 export function addDevice(device){

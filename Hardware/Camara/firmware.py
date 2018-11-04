@@ -6,11 +6,39 @@ import sys
 
 import pyzbar.pyzbar as pyzbar
 import numpy as np
+import requests
+from ConfigParser import SafeConfigParser
 
-def getDev():
-    # device_topic = fetchDeviceDataLocalserverAPI()
-     device_topic = "local_server0"
-     return device_topic
+device_topic = "0"
+broker_adress = "0"
+rbpi_api_url = "0"
+pinguilock_api_url = "0"
+cam_topic = "0"
+
+def setup():
+    parser = SafeConfigParser()
+    parser.read("config.ini")
+    global broker_adress
+    global rbpi_api_url
+    global pinguilock_api_url
+    
+    if sys.argv[1] == "-development":
+        
+        broker_adress = parser.get("development", "broker_adress")
+        rbpi_api_url = parser.get("development", "rbpi_api_url")
+        pinguilock_api_url = parser.get("development", "pinguilock_api_url")
+    elif sys.argv[1] == "-production":
+        broker_adress = parser.get("production", "broker_adress")
+        rbpi_api_url = parser.get("production", "rbpi_api_url")
+        pinguilock_api_url = parser.get("production", "pinguilock_api_url")
+    
+
+
+def getDeviceTopic():
+    response = requests.get(rbpi_api_url + "/mqtt-info/1")
+    data = response.json()
+    return data["device_name"]
+
 
 def checkUserAWS(user, frame):
     #refImage = getRefImageAPI(user)
@@ -24,10 +52,10 @@ def checkUserAWS(user, frame):
     return False
     
 
-cam_topic = getDev() + "/" + "cam0"
 
-broker_adress = "pinguilock.local" # Cambiar por la ip de AWS
-client = mqtt.Client("cam0")
+
+
+
 
 
 def decode(im):
@@ -56,12 +84,15 @@ def check_QR(client, QRCode, lockTopic):
 
 def on_message(client, userdata, message):
     rawMessage = str(message.payload.decode("utf-8"))
-    print("message received " + rawMessage);
+    print("message: " + rawMessage);
     messageArray = rawMessage.split(":")
     userOrQR = messageArray[0]
     authMethod = messageArray[1]
     lockTopic = messageArray[2]
-    print(messageArray)
+    print("userOrQR: " + userOrQR)
+    print("authMethod:" + authMethod)
+    print("lockTopic:" + lockTopic)
+
     if authMethod == "FaceAuth":
         user = userOrQR
         check_face(client, user, lockTopic)
@@ -113,15 +144,20 @@ def check_face(client, user, lockTopic):
             break
 
 
+def main():
+    setup()
+    client = mqtt.Client("cam0")
+    cam_topic = getDeviceTopic() + "/cam0"
+    client.on_message = on_message
+    client.connect(broker_adress)
+    client.loop_start()
+    client.subscribe(cam_topic)
+    print("CAM0 Ready")
+    time.sleep(5)
+    while 1:
+        continue
 
-client.on_message = on_message
-client.connect(broker_adress)
-client.loop_start()
-client.subscribe(cam_topic)
-print("CAM Ready")
-time.sleep(5)
-while 1:
-    continue
+main()
 
     
 
