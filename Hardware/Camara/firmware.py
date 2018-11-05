@@ -150,8 +150,9 @@ def main():
     cam_topic = getDeviceTopic() + "/cam0"
     client.on_message = on_message
     client.connect(broker_adress)
-    client.loop_start()
     client.subscribe(cam_topic)
+    client.loop_start()
+    
     print("subscribed to: " + cam_topic)
     print("CAM0 Ready")
     time.sleep(5)
