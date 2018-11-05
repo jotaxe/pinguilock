@@ -4,17 +4,29 @@
 // eslint-disable-next-line no-unused-vars
 module.exports = function (options = {}) {
   return async context => {
-    var current_date = new Date();
+
+
     const otpservice = context.app.service('otp');
       otpservice.find({
       query:{
-        $select : ['timeout', 'id']
+        id:context.id
       }
-    }).then(timeouts => {
-      console.log("timeouts", timeouts);
+    }).then(result => {
+      var current_date = new Date();
+      var otptimeout = result.data[0].timeout;
+
+      // console.log("timeout :", otptimeout.getTime());
+      // console.log("acttime :", current_date.getTime());
+      // console.log("timeout :", otptimeout);
+      // console.log("acttime :", current_date);
+      if (otptimeout.getTime()<=current_date.getTime()){
+        const data = {
+          valid: false
+        };
+        otpservice.patch(context.id,data);
+      }
     });
-    console.log("hora actual", current_date);
-    
+
 
     //  if (current_date.getHours() >= expired_date.getHours()){
     //   console.log("es invalido");

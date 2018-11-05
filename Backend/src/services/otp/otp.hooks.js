@@ -28,7 +28,7 @@ module.exports = {
   after: {
     all: [],
     find: [],
-    get: [otpexpire()],
+    get: [],
     create: [jsonqrcode()],
     update: [],
     patch: [],
