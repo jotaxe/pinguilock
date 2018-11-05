@@ -17,7 +17,7 @@ const int relayPin = 4;
 
 const char* ssid = "PI-nguilock";
 const char* password = "jota123456";
-const char* mqtt_server = "pinguilock.local";
+const char* mqtt_server = "18.191.188.122";
 
 String request_topic = "local_server0";
 String device_topic = "lock0";
