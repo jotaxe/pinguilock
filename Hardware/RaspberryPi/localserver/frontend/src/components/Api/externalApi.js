@@ -2,7 +2,7 @@
 const feathers = require('@feathersjs/feathers');
 const rest = require('@feathersjs/rest-client');
 const app = feathers();
-const restClient = rest('http://localhost:3030')
+const restClient = rest('http://mbp.local:3030')
 const auth = require('@feathersjs/authentication-client');
 
 
