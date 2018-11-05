@@ -152,6 +152,7 @@ def main():
     client.connect(broker_adress)
     client.loop_start()
     client.subscribe(cam_topic)
+    print("subscribed to: " + cam_topic)
     print("CAM0 Ready")
     time.sleep(5)
     while 1:
