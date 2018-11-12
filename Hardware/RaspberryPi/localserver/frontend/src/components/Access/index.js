@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {getAdmin, getDevices, getPairs} from '../Api/localApi';
+import {getDevices, getPairs, getMQTTInfo} from '../Api/localApi';
 import DeviceCard from "./deviceCard";
 import PairCard from "./pairCard";
 import GridList from '@material-ui/core/GridList';
@@ -12,9 +12,9 @@ export default class Access extends Component {
   constructor(props){
     super(props);
     this.state = {
-      admin: undefined,
       devices: undefined,
-      pairs: undefined
+      pairs: undefined,
+      localname: undefined,
     }
   }
   componentDidMount(){
@@ -24,6 +24,11 @@ export default class Access extends Component {
     Promise.resolve(getPairs()).then((PairData) => {
       this.setState({pairs: PairData.data});
     })
+
+    Promise.resolve(getMQTTInfo()).then((devData) => {
+      this.setState({localname: devData.device_name});
+    })
+
     
   }
   render() {
@@ -59,7 +64,7 @@ export default class Access extends Component {
                     <GridListTile key={device._id}>
                         <DeviceCard
                             device={device} 
-                            localname="local_server0"
+                            localname={this.state.localname}
                             />
                     </GridListTile>
                 )

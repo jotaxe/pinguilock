@@ -5,8 +5,8 @@ const DataTypes = Sequelize.DataTypes;
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const key = sequelizeClient.define('key', {
-    name: {
+  const localServer = sequelizeClient.define('local_server', {
+    topic: {
       type: DataTypes.STRING,
       allowNull: false
     }
@@ -19,11 +19,12 @@ module.exports = function (app) {
   });
 
   // eslint-disable-next-line no-unused-vars
-  key.associate = function (models) {
-    key.belongsTo(models.user,{foreignKey:'user_id'})
-    key.belongsTo(models.lock,{foreignKey:'lock_id'})
+  localServer.associate = function (models) {
+    // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
+    localServer.belongsTo(models.user,{foreignKey:'admin'})
+    localServer.hasMany(models.lock,{foreignKey:'local_server_id'})
   };
 
-  return key;
+  return localServer;
 };

@@ -44,7 +44,7 @@ class PairCard extends Component {
               <FontAwesomeIcon icon={faLock} align="center"/>
           </Typography> 
           <Typography className={classes.title}   align="center" variant="caption">
-            /{pair.lock_name}
+            /{pair.lock_topic}
           </Typography> 
           
           <Divider inset className={classes.divider}/>
@@ -52,7 +52,7 @@ class PairCard extends Component {
               <FontAwesomeIcon icon={faVideo} />
           </Typography>
           <Typography className={classes.title}   align="center" variant="caption">
-            /{pair.cam_name}
+            /{pair.cam_topic}
           </Typography> 
           
         </CardContent>

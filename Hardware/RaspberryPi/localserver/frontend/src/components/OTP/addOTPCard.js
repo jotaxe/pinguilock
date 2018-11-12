@@ -13,6 +13,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import { addDevice } from '../Api/localApi';
+import { createOTP, getUser } from '../Api/externalApi';
 
 const styles = theme => ({
   card: {
@@ -51,13 +52,19 @@ function getModalStyle() {
     };
   }
 
-class AddDeviceCard extends Component {
+class AddOtpCard extends Component {
     state = {
         modal: false,
-        addDeviceTextField: undefined,
-        addDeviceType: "",
-        addDeviceTopic: ""
+        recieverEmail: "",
+        locks: undefined,
+        currentLock: undefined
     };
+
+    componentDidMount(){
+        getUser().then((user) => {
+            this.setState({locks: user.locks});
+        })
+    }
     handleOpen = () => { 
         this.setState({modal: true});
     }
@@ -66,37 +73,29 @@ class AddDeviceCard extends Component {
         this.setState({modal: false});
     }
 
-    deviceNameChange = (ev) => {
-        this.setState({addDeviceTextField: ev.target.value});
+    emailChange = (ev) => {
+        this.setState({recieverEmail: ev.target.value});
     }
 
-    deviceTopicChange = (ev) => {
-        this.setState({addDeviceTopic: ev.target.value});
+    lockChange = (ev) => {
+        this.setState({currentLock: ev.target.value})
     }
 
-    handleTypeChange = (ev) => {
-        this.setState({addDeviceType: ev.target.value});
-    }
-
-    createDevice = () => {
-        const { addDeviceTextField, addDeviceType, addDeviceTopic } = this.state;
-        const device = {
-            name: addDeviceTextField, 
-            type: addDeviceType,
-            topic: addDeviceTopic
-        };
-        addDevice(device);
+    createOtp = () => {
+        const { recieverEmail, currentLock } = this.state;
+        createOTP(recieverEmail, currentLock);
         this.setState({
             modal: false,
-            addDeviceTextField: undefined,
-            addDeviceType: ""
+            recieverEmail: ""
         });
     }
 
 
     render(){
         const { classes } = this.props;
-        
+        const locksOptions = this.state.locks ? this.state.locks.map((lock) => {
+            return <MenuItem key={lock.id} value={lock.id}>{lock.name}</MenuItem>
+        }): null;
         return (   
                 <div>
                     <Card className={classes.card}>
@@ -124,37 +123,34 @@ class AddDeviceCard extends Component {
                     >
                         <div className={classes.modalPaper} style={getModalStyle()}>
                             <Typography variant="h6" id="modal-title">
-                                Add a Device
+                                create an OTP QR Code
                             </Typography>
                             <Divider/>
                             <br/>
                             <TextField 
-                            label="Device Name" 
-                            onChange={this.deviceNameChange} 
-                            />
-                            <TextField 
-                            label="Device Topic" 
-                            onChange={this.deviceTopicChange} 
+                            label="email" 
+                            onChange={this.emailChange} 
                             />
                             <br/>
-                            <InputLabel htmlFor="dev-sel">Device Type</InputLabel>
+                            <InputLabel htmlFor="dev-sel">Locks</InputLabel>
                             <Select
                             className={classes.createDeviceSelect}
-                            onChange={this.handleTypeChange}
-                            value={this.state.addDeviceType}
+                            onChange={this.lockChange}
+                            value={this.state.currentLock}
                             inputProps={{
                                 name: "device-type",
                                 id: "dev-sel"
                             }}
-                            >
-                                <MenuItem value="cam">Camera</MenuItem>
-                                <MenuItem value="lock">Lock</MenuItem>
+                            ><MenuItem value={0} disabled>
+                            Locks
+                            </MenuItem>
+                            {locksOptions}
                             </Select>
                             <br/>
                             <Button 
                             className={classes.creteDeviceButton} 
                             color="primary"
-                            onClick={this.createDevice}
+                            onClick={this.createOtp}
                             > 
                                 Create
                             </Button>
@@ -164,8 +160,8 @@ class AddDeviceCard extends Component {
         );
     }
 }
-AddDeviceCard.propTypes = {
+AddOtpCard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AddDeviceCard);
+export default withStyles(styles)(AddOtpCard);

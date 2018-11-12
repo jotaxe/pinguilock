@@ -15,10 +15,6 @@ module.exports = function (app) {
       type: DataTypes.STRING,
       allowNull: true
     },
-    role: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
     googleId: {
       type: DataTypes.STRING,
       allowNull: false
@@ -37,6 +33,7 @@ module.exports = function (app) {
     user.hasMany(models.key,{foreignKey:'user_id'})
     user.hasMany(models.access_request,{foreignKey:'user_id'})
     user.hasMany(models.otp,{foreignKey:'user_id'})
+    user.hasMany(models.local_server,{foreignKey:'admin'})
   };
 
   return user;

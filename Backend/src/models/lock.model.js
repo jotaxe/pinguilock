@@ -5,7 +5,11 @@ const DataTypes = Sequelize.DataTypes;
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const key = sequelizeClient.define('key', {
+  const lock = sequelizeClient.define('lock', {
+    topic: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false
@@ -19,11 +23,14 @@ module.exports = function (app) {
   });
 
   // eslint-disable-next-line no-unused-vars
-  key.associate = function (models) {
-    key.belongsTo(models.user,{foreignKey:'user_id'})
-    key.belongsTo(models.lock,{foreignKey:'lock_id'})
+  lock.associate = function (models) {
+    // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
+    lock.belongsTo(models.local_server,{foreignKey:'local_server_id'})
+    lock.hasMany(models.key,{foreignKey:'lock_id'})
+    lock.hasMany(models.otp,{foreignKey:'lock_id'})
+    lock.hasMany(models.access_request,{foreignKey:'lock_id'})
   };
 
-  return key;
+  return lock;
 };

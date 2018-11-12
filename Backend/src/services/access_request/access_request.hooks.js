@@ -1,4 +1,12 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
+const mqtt = require('mqtt');
+const mqttHost = "mqtt://localhost";
+const client = mqtt.connect(mqttHost);
+client.on('connect', function() {
+  console.log("MQTT Client running on " + mqttHost);
+})
+
+const mqttCall = require('../../hooks/mqtt-call');
 
 
 module.exports = {
@@ -16,7 +24,7 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [mqttCall(client)],
     update: [],
     patch: [],
     remove: []

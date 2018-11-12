@@ -1,25 +1,11 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 
-
-const qrcode = require('../../hooks/qrcode');
-
-
-const jsonqrcode = require('../../hooks/jsonqrcode');
-
-
-
-
-
-const checkOtp = require('../../hooks/check-otp');
-
-
-
 module.exports = {
   before: {
-    all: [authenticate('jwt')],
+    all: [ authenticate('jwt') ],
     find: [],
     get: [],
-    create: [qrcode()],
+    create: [],
     update: [],
     patch: [],
     remove: []
@@ -28,8 +14,8 @@ module.exports = {
   after: {
     all: [],
     find: [],
-    get: [checkOtp()],
-    create: [jsonqrcode()],
+    get: [],
+    create: [],
     update: [],
     patch: [],
     remove: []

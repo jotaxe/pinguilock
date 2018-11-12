@@ -15,28 +15,14 @@ module.exports = function (options = {}) {
       var current_date = new Date();
       var otptimeout = result.data[0].timeout;
 
-      // console.log("timeout :", otptimeout.getTime());
-      // console.log("acttime :", current_date.getTime());
-      // console.log("timeout :", otptimeout);
-      // console.log("acttime :", current_date);
       if (otptimeout.getTime()<=current_date.getTime()){
         const data = {
-          valid: false
+          status: 'inactive'
         };
         otpservice.patch(context.id,data);
       }
     });
 
-
-    //  if (current_date.getHours() >= expired_date.getHours()){
-    //   console.log("es invalido");
-    //   console.log("hora actual", current_date.getHours());
-    //   console.log("hora de espiracion", expired_date.getHours());
-    //   context.data.valid = FALSE;
-    // }
-    // console.log("es valido" );
-    // console.log("hora actual", current_date.getHours());
-    // console.log("hora de espiracion", expired_date.getHours());
     return Promise.resolve(context);
   };
 };

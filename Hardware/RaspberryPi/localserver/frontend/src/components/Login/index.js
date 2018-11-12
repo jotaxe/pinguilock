@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { GoogleLogin } from 'react-google-login';
-import {getAdmin, setAdmin} from "../Api/localApi";
-import {authenticate} from "../Api/externalApi";
+import {getAdmin, setAdmin, getMQTTInfo} from "../Api/localApi";
+import {authenticate, createLocalServer} from "../Api/externalApi";
 import Typography from '@material-ui/core/Typography';
 
 
@@ -23,9 +23,10 @@ export default class Login extends Component {
         const userEmail = response.profileObj.email;
         const {adminMail} = this.state;
         if (userEmail === adminMail){
-            localStorage.setItem("userID", response.profileObj.googleId);
             authenticate(response.Zi.access_token)
-            .then(() => {
+            .then((res) => {
+                console.log(res);
+                localStorage.setItem('user', res.user.id)
                 window.location.href = "/";    
             }).catch((e) => {console.log(e);});
         }else{
@@ -36,9 +37,16 @@ export default class Login extends Component {
     firstLoginResponse = (response) => {
         const adminMail = response.profileObj.email;
         setAdmin(adminMail).then( () => {
-            localStorage.setItem("userID", response.profileObj.googleId);
-            authenticate(response.Zi.access_token).then( () => {
-                window.location.href = "/";
+            
+            authenticate(response.Zi.access_token).then( (res) => {
+                localStorage.setItem("user", res.user.id);
+            }).then( () => {
+                getMQTTInfo().then( (devData) => {
+                    const user = localStorage.getItem('user');
+                    createLocalServer(user, devData.device_name).then( () => {
+                        window.location.href = "/";
+                    });
+                });
             });
         });
     }

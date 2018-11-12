@@ -8,15 +8,20 @@ module.exports = function (app) {
   const otp = sequelizeClient.define('otp', {
     secret_code: {
       type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    reciever_email: {
+      type: DataTypes.STRING,
       allowNull: false
     },
     timeout: {
       type: DataTypes.DATE,
       allowNull: false
     },
-    valid: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false
+    status: {
+      type: DataTypes.ENUM('aproval pending', 'active', 'inactive'),
+      defaultValue: 'aproval pending'
     }
   }, {
     hooks: {
@@ -28,8 +33,17 @@ module.exports = function (app) {
 
   // eslint-disable-next-line no-unused-vars
   otp.associate = function (models) {
-    otp.belongsTo(models.user,{foreignKey:'user_id'})
+    otp.belongsTo(models.user,
+      {
+        foreignKey: {
+            name: 'user_id',
+            allowNull: true
+        }
+      }
+    )
     otp.belongsTo(models.user,{foreignKey:'granted_by_user'})
+    otp.belongsTo(models.lock,{foreignKey:'lock_id'})
+    otp.hasOne(models.access_request,{foreignKey:'otp_id'})
 
   };
 

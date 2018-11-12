@@ -52,12 +52,6 @@ def checkUserAWS(user, frame):
     return False
     
 
-
-
-
-
-
-
 def decode(im):
     decodedObjects = pyzbar.decode(im)
 
@@ -158,6 +152,7 @@ def main():
     time.sleep(5)
     while 1:
         continue
+
 
 main()
 

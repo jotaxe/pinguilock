@@ -58,8 +58,8 @@ function getModalStyle() {
 class addPairCard extends Component {
     state = {
         modal: false,
-        cam_name: 0,
-        lock_name: 0,
+        cam_topic: 0,
+        lock_topic: 0,
         cams: undefined,
         locks: undefined
 
@@ -73,21 +73,21 @@ class addPairCard extends Component {
     }
 
     camChange = (ev) => {
-        this.setState({cam_name: ev.target.value});
+        this.setState({cam_topic: ev.target.value});
         console.log("hola")
     }
 
     lockChange = (ev) => {
-        this.setState({lock_name: ev.target.value});
+        this.setState({lock_topic: ev.target.value});
     }
 
     createPair = () => {
-        const { cam_name, lock_name } = this.state;
-        pairDevices(cam_name, lock_name);
+        const { cam_topic, lock_topic } = this.state;
+        pairDevices(cam_topic, lock_topic);
         this.setState({
             modal: false,
-            cam_name: 0,
-            lock_name: 0
+            cam_topic: 0,
+            lock_topic: 0
         })
     }
 
@@ -106,10 +106,10 @@ class addPairCard extends Component {
         const { classes } = this.props;
         const {cams, locks} = this.state;
         const camsOptions = cams ? cams.map((cam) => {
-            return (<MenuItem key={cam._id} value={cam.name}>{cam.name}</MenuItem>)
+            return (<MenuItem key={cam._id} value={cam.topic}>{cam.name}</MenuItem>)
         }) : null;
         const locksOptions = locks ? locks.map((lock) => {
-            return (<MenuItem key={lock._id} value={lock.name}>{lock.name}</MenuItem>)
+            return (<MenuItem key={lock._id} value={lock.topic}>{lock.name}</MenuItem>)
         }) : null;
         return (   
                 <div>
@@ -146,7 +146,7 @@ class addPairCard extends Component {
                             displayEmpty
                             className={classes.select}
                             onChange={this.camChange}
-                            value={this.state.cam_name}
+                            value={this.state.cam_topic}
                             
                             >
                              <MenuItem value={0} disabled>
@@ -159,7 +159,7 @@ class addPairCard extends Component {
                             displayEmpty
                             className={classes.select}
                             onChange={this.lockChange}
-                            value={this.state.lock_name}
+                            value={this.state.lock_topic}
                             
                             >
                             <MenuItem value={0} disabled>Locks</MenuItem>

@@ -21,7 +21,7 @@ module.exports = function (options = {}) {
     timeout.setHours(time.getHours() + 1);
     context.data.timeout = timeout;
     context.data.secret_code = secret_code;
-    context.data.valid = true;
+    context.data.status = 'aproval pending';
     return context;
   };
 };

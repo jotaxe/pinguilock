@@ -6,17 +6,13 @@ const DataTypes = Sequelize.DataTypes;
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
   const accessRequest = sequelizeClient.define('access_request', {
-    lock_topic: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
     method: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM('OTP', 'Face'),
       allowNull: false
     },
     successfull: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
+      defaultValue: false
     },
     access_image: {
       type: DataTypes.STRING,
@@ -33,6 +29,16 @@ module.exports = function (app) {
   // eslint-disable-next-line no-unused-vars
   accessRequest.associate = function (models) {
     accessRequest.belongsTo(models.user,{foreignKey:'user_id'})
+    accessRequest.belongsTo(models.lock,{foreignKey:'lock_id'})
+    accessRequest.belongsTo(models.otp,
+      {
+        foreignKey: {
+            name: 'otp_id',
+            allowNull: true
+        }
+      }
+    )
+
 
   };
 

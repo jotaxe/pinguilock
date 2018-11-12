@@ -38,7 +38,7 @@ class DeviceCard extends Component {
             {device.name}
           </Typography>
           <Typography className={classes.pos} color="textSecondary">
-            {localname}/{device.name}
+            {localname}/{device.topic}
           </Typography>
         </CardContent>
         <CardActions>

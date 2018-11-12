@@ -1,3 +1,4 @@
+import { createLock, deleteLock } from './externalApi';
 
 const feathers = require('@feathersjs/feathers');
 const rest = require('@feathersjs/rest-client');
@@ -6,6 +7,8 @@ const restClient = rest('http://localhost:3031')
 
 
 app.configure(restClient.fetch(window.fetch));
+
+
 
 export function getMQTTInfo(){
     return app.service("mqtt-info").get(1);
@@ -20,7 +23,15 @@ export function setAdmin(adminMail){
 }
 
 export function addDevice(device){
-    app.service("devices").create({name: device.name, type: device.type});
+    return app.service("devices").create({topic: device.topic, name: device.name, type: device.type})
+    .then(() => {
+        if(device.type === 'lock'){
+            getMQTTInfo().then((devData) => {
+                createLock(devData.device_name, device.topic, device.name )
+            })
+        }
+    });
+    
 }
 
 export function getDevices(){
@@ -28,7 +39,7 @@ export function getDevices(){
 }
 
 export function pairDevices(cam, lock){
-    app.service("cam-lock-pair").create({cam_name: cam, lock_name: lock});
+    app.service("cam-lock-pair").create({cam_topic: cam, lock_topic: lock});
 }
 
 export function getPairs(){
@@ -48,7 +59,13 @@ export function deletePair(id){
 }
 
 export function deleteDevice(id){
-    app.service("devices").remove(id);
+    return app.service("devices").remove(id).then( (device) => {
+        if(device.type === 'lock'){
+            getMQTTInfo().then((devData) => {
+                deleteLock(devData.device_name, device.topic )
+            })
+        }
+    });
 }
 
 //export default app;

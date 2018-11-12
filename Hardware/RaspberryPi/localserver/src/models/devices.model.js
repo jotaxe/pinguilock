@@ -10,7 +10,8 @@ module.exports = function (app) {
 /**
  * {
  * name: string,
- * type: string
+ * type: string,
+ * topic: string
  * }
  */
   return Model;

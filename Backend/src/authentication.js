@@ -49,6 +49,13 @@ module.exports = function (app) {
       remove: [
         authentication.hooks.authenticate('jwt')
       ]
+    },
+    after: {
+      create: [
+        async (context) => {
+          context.result.user = await context.app.service('user').get(context.params.user.id)
+        }
+      ]
     }
   });
 };

@@ -8,6 +8,7 @@ function customizeGoogleProfile(){
   return Promise.resolve(hook);
  }
 }
+const retrieveAdmin = require('../../hooks/retrieve-admin');
 module.exports = {
   before: {
     all: [],
@@ -23,7 +24,7 @@ module.exports = {
   after: {
     all: [],
     find: [],
-    get: [],
+    get: [retrieveAdmin()],
     create: [],
     update: [],
     patch: [],
