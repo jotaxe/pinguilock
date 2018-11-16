@@ -9,6 +9,9 @@ client.on('connect', function() {
 const mqttCall = require('../../hooks/mqtt-call');
 
 
+const getAccessRequest = require('../../hooks/get-access-request');
+
+
 module.exports = {
   before: {
     all: [ authenticate('jwt')],
@@ -23,7 +26,7 @@ module.exports = {
   after: {
     all: [],
     find: [],
-    get: [],
+    get: [getAccessRequest()],
     create: [mqttCall(client)],
     update: [],
     patch: [],

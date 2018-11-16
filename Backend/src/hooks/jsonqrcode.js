@@ -4,13 +4,7 @@
 // eslint-disable-next-line no-unused-vars
 module.exports = function (options = {}) {
   return async context => {
-      context.result = {
-        "id" : context.result.id, 
-        "metadata": { 
-          "status": context.result.status, 
-          "timeout": context.result.timeout 
-        } 
-      };
+    delete context.result.secret_code   
     return context;
   };
 };

@@ -7,6 +7,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import AddDeviceCard from "./addDeviceCard";
 import AddPairCard from "./addPairCard";
 import Divider from '@material-ui/core/Divider';
+import socketApp from '../Api/localApi';
 
 export default class Access extends Component {
   constructor(props){
@@ -30,6 +31,38 @@ export default class Access extends Component {
     })
 
     
+    socketApp.service('devices').on('created', (newDevice) => {
+      this.setState((prevState) => {
+        return {
+          devices: prevState.devices.concat(newDevice)
+        }
+      })
+    });
+    socketApp.service('devices').on('removed', (removedDevice) => {
+      this.setState((prevState) => {
+        const filtered = prevState.devices.filter(obj =>  obj._id !== removedDevice._id )
+        return {
+          devices: filtered
+        }
+      })
+    });
+
+    socketApp.service('cam-lock-pair').on('created', (newPair) => {
+      this.setState((prevState) => {
+        return {
+          pairs: prevState.pairs.concat(newPair)
+        }
+      })
+    });
+    socketApp.service('cam-lock-pair').on('removed', (removedPair) => {
+      this.setState((prevState) => {
+        const filtered = prevState.pairs.filter(obj =>  obj._id !== removedPair._id )
+        return {
+          pairs: filtered
+        }
+      })
+    });
+
   }
   render() {
     const styles = {

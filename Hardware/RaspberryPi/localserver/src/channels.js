@@ -7,6 +7,7 @@ module.exports = function(app) {
   app.on('connection', connection => {
     // On a new real-time connection, add it to the anonymous channel
     app.channel('anonymous').join(connection);
+    console.log("hola")
   });
 
   app.on('login', (authResult, { connection }) => {
@@ -44,7 +45,7 @@ module.exports = function(app) {
     console.log('Publishing all events to all authenticated users. See `channels.js` and https://docs.feathersjs.com/api/channels.html for more information.'); // eslint-disable-line
 
     // e.g. to publish all service events to all authenticated users use
-    return app.channel('authenticated');
+    return app.channel('anonymous');
   });
 
   // Here you can also add service specific event publishers

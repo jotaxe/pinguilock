@@ -12,7 +12,6 @@ import Divider from '@material-ui/core/Divider';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
-import { addDevice } from '../Api/localApi';
 import { createOTP, getUser } from '../Api/externalApi';
 
 const styles = theme => ({
@@ -57,13 +56,14 @@ class AddOtpCard extends Component {
         modal: false,
         recieverEmail: "",
         locks: undefined,
-        currentLock: undefined
+        currentLock: 0
     };
 
     componentDidMount(){
         getUser().then((user) => {
             this.setState({locks: user.locks});
-        })
+            console.log(user.locks);
+        });
     }
     handleOpen = () => { 
         this.setState({modal: true});

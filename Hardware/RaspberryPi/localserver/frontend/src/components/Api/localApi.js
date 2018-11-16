@@ -1,12 +1,19 @@
 import { createLock, deleteLock } from './externalApi';
 
 const feathers = require('@feathersjs/feathers');
-const rest = require('@feathersjs/rest-client');
+const socketio = require('@feathersjs/socketio-client');
+const io = require('socket.io-client');
 const app = feathers();
+const socketApp = feathers();
+const socket = io('http://localhost:3032'); //direccion de la api
+const auth = require('@feathersjs/authentication-client')
+const rest = require('@feathersjs/rest-client');
 const restClient = rest('http://localhost:3031')
 
-
 app.configure(restClient.fetch(window.fetch));
+socketApp.configure(socketio(socket));
+
+
 
 
 
@@ -68,4 +75,4 @@ export function deleteDevice(id){
     });
 }
 
-//export default app;
+export default socketApp;

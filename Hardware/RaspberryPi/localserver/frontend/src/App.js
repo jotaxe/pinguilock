@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import Sidebar from "./components/Sidebar";
 import './App.css';
-import { Route } from "react-router-dom";
-import Login from "./components/Login";
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import app from './components/Api/externalApi';
 
 class App extends Component {
+
+  componentDidMount(){
+    if(localStorage.getItem('feathers-jwt')){
+      app.authenticate();
+    }
+  }
+
   render() {
     const theme = createMuiTheme({
       palette: {

@@ -21,7 +21,7 @@ module.exports = function (app) {
 
   // eslint-disable-next-line no-unused-vars
   face.associate = function (models) {
-    face.belongsTo(models.user,{foreignKey:'user_id'})
+    face.belongsTo(models.key,{foreignKey:'key_id'})
   };
 
   return face;

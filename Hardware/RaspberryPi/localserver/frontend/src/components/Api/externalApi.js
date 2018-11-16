@@ -1,14 +1,22 @@
-import { func } from 'prop-types';
+// const feathers = require('@feathersjs/feathers');
+// const rest = require('@feathersjs/rest-client');
+// const app = feathers();
+// const restClient = rest('http://192.168.0.11:3030')
+// const auth = require('@feathersjs/authentication-client');
 
 const feathers = require('@feathersjs/feathers');
-const rest = require('@feathersjs/rest-client');
+const socketio = require('@feathersjs/socketio-client');
+const io = require('socket.io-client');
 const app = feathers();
+const socket = io('http://192.168.0.11:3030'); //direccion de la api
+const auth = require('@feathersjs/authentication-client')
+const rest = require('@feathersjs/rest-client');
 const restClient = rest('http://192.168.0.11:3030')
-const auth = require('@feathersjs/authentication-client');
 
+//app.configure(restClient.fetch(window.fetch));
+app.configure(socketio(socket));
+app.configure(auth({storage: window.localStorage})); 
 
-app.configure(restClient.fetch(window.fetch));
-app.configure(auth({storage: window.localStorage}));
 
 
 
@@ -16,7 +24,7 @@ export function authenticate(googleToken){
     return app.authenticate({
         strategy: "google-token",
         access_token: googleToken
-    });
+    }).then((res) => {return res});
 }
 
 export function createLocalServer(admin, topic){
@@ -46,14 +54,18 @@ export function deleteLock(local_server, topic){
 }
 
 export function getOTPs(){
-    const userID = localStorage.getItem("user");
-    return app.service('otp').find(
-        {
-            query: {
-                granted_by_user: userID
+    return app.authenticate().then( (res) => {
+        const userID =  res.user.id;
+        return app.service('otp').find(
+            {
+                query: {
+                    granted_by_user: userID
+                }
             }
-        }
-    );
+        );
+    });
+    
+    
 }
 export function createOTP(email, lock){
     const userID = localStorage.getItem("user");
@@ -72,14 +84,43 @@ export function aproveOTP(id){
     app.service('otp').patch(id, {status: 'active'});
 }
 
+export function getKeys(){
+    return app.authenticate().then( (res) => {
+        const lockIds = res.user.locks.map(lock => lock.id);
+        return app.service('key').find({
+            query: {
+                lock_id: {
+                    $in: lockIds
+                }
+            }
+        });
+    });
+}
+
+export function createKey(userId, lockId, imageUri, keyName){
+    return app.authenticate().then( () => {
+        return app.service('key').create({user_id: userId, lock_id: lockId, faceUri: imageUri, name: keyName});
+    })
+}
+
+export function removeKey(id){
+    return app.authenticate().then((res) => {
+        return app.service('key').remove(id);
+    });
+}
+
+
+
 export function getUser(){
     const userID = localStorage.getItem("user");
-    return app.service('user').get(userID);
+    return app.authenticate().then(() => {return app.service('user').get(userID);})
 }
 
 export function getUserName(id){
     return app.service('user').get(id)
 }
+
+export default app
 
 
 

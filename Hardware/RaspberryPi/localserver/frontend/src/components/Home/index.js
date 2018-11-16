@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {getMQTTInfo, getAdmin} from '../Api/localApi';
+import app from '../Api/externalApi';
 
 export default class Home extends Component {
   constructor(props){
@@ -10,6 +11,7 @@ export default class Home extends Component {
     }
   }
   componentDidMount(){
+    app.authenticate()
     Promise.resolve(getMQTTInfo()).then((devData) => {
       this.setState({device_name: devData.device_name});
     }).then( () => {
@@ -21,10 +23,10 @@ export default class Home extends Component {
     
   }
   render() {
-    const {device_name, email} = this.state;
+    const {device_name, admin} = this.state;
     return (
       <div>
-        Bienvenido al admin de {device_name} {email}
+        Bienvenido al admin de {device_name} {admin}
       </div>
     )
   }

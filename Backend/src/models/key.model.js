@@ -20,6 +20,7 @@ module.exports = function (app) {
 
   // eslint-disable-next-line no-unused-vars
   key.associate = function (models) {
+    key.hasOne(models.face,{foreignKey:'key_id'})
     key.belongsTo(models.user,{foreignKey:'user_id'})
     key.belongsTo(models.lock,{foreignKey:'lock_id'})
     // See http://docs.sequelizejs.com/en/latest/docs/associations/

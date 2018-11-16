@@ -20,7 +20,7 @@ module.exports = function (app) {
       allowNull: false
     },
     status: {
-      type: DataTypes.ENUM('aproval pending', 'active', 'inactive'),
+      type: DataTypes.ENUM('aproval pending', 'active', 'inactive', 'timedout'),
       defaultValue: 'aproval pending'
     }
   }, {

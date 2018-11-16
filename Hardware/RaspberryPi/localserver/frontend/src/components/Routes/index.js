@@ -4,6 +4,7 @@ import Home from "../Home";
 import Access from "../Access";
 import Login from "../Login";
 import OTP from '../OTP';
+import Keys from '../Keys';
 
 import {PrivateRoute} from "./PrivateRoute";
 
@@ -13,6 +14,7 @@ export const routes = (
         <PrivateRoute exact path="/" component={Home} />
         <PrivateRoute exact path="/access" component={Access} />
         <PrivateRoute exact path="/OTP" component={OTP} />
+        <PrivateRoute exact path="/keys" component={Keys} />
     </Switch>
 )
 

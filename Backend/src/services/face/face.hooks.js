@@ -1,12 +1,18 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 
 
+const getImageUri = require('../../hooks/get-image-uri');
+
+
+const addImgToFace = require('../../hooks/add-img-to-face');
+
+
 module.exports = {
   before: {
     all: [ authenticate('jwt')],
     find: [],
     get: [],
-    create: [],
+    create: [addImgToFace()],
     update: [],
     patch: [],
     remove: []

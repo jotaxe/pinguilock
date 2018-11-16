@@ -13,6 +13,7 @@ import FormControl from '@material-ui/core/FormControl';
 
 
 import {getCams, getLocks, pairDevices} from "../Api/localApi";
+import socketApp from "../Api/localApi";
 
 
 
@@ -99,6 +100,38 @@ class addPairCard extends Component {
                 this.setState({locks: locksData.data});
             })
         });
+        socketApp.service('devices').on('created', (newDevice) => {
+            this.setState((prevState) => {
+                if(newDevice.type === 'lock'){
+                    return {
+                        locks: prevState.locks.concat(newDevice)
+                    }
+                }
+                if(newDevice.type === 'cam'){
+                    return {
+                        cams: prevState.cams.concat(newDevice)
+                    }
+                }
+              
+            })
+          });
+          socketApp.service('devices').on('removed', (removedDevice) => {
+            this.setState((prevState) => {
+                if(removedDevice.type === 'lock'){
+                    const filtered = prevState.locks.filter(obj =>  obj._id !== removedDevice._id )
+                    return {
+                        locks: filtered
+                    }
+                }
+                if(removedDevice.type === 'cam'){
+                    const filtered = prevState.cams.filter(obj =>  obj._id !== removedDevice._id )
+                    return {
+                        cams: filtered
+                    }
+                }
+              
+            })
+          });
     }
 
 

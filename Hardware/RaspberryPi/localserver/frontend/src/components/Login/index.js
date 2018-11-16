@@ -92,7 +92,7 @@ export default class Login extends Component {
                     marginBottom: "3px"
                 }}>
                     <GoogleLogin
-                        clientId="744835113496-il4k0je3nr01idqate9m9vs2ndqbra7i.apps.googleusercontent.com"
+                        clientId="744835113496-qtb63bvfeiq2g6b9ogal9rrc9p65m9oq.apps.googleusercontent.com"
                         buttonText="Login"
                         
                         onSuccess={!adminSet ? this.firstLoginResponse : this.loginResponse}

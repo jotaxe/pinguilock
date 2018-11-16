@@ -27,7 +27,7 @@ module.exports = {
 
   after: {
     all: [],
-    find: [],
+    find: [checkOtp()],
     get: [checkOtp()],
     create: [jsonqrcode()],
     update: [],

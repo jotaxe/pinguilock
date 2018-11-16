@@ -6,7 +6,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import {deleteOTP, aproveOTP, getUser, getUserName} from "../Api/externalApi";
+import {deleteOTP, aproveOTP, getUserName} from "../Api/externalApi";
 
 const styles = {
   card: {
@@ -43,10 +43,19 @@ class OTPCard extends Component {
             this.setState({userName: user.name});
         })
     }
+
+    componentDidUpdate(prevProps){
+        if (prevProps.otp.user_id !== this.props.otp.user_id){
+            getUserName(this.props.otp.user_id).then((user) => {
+                this.setState({userName: user.name});
+            })
+        }
+        
+    }
+
     render(){  
         const { classes, otp } = this.props;
-        const accountText = otp.user_id ? this.state.userName : "No linked Account"
-        console.log(otp)
+        const accountText = otp.user_id ? this.state.userName : "No linked Account";
         return (
         <Card className={classes.card}>
             <CardContent>
@@ -54,11 +63,13 @@ class OTPCard extends Component {
                 {otp.status}
             </Typography>
             <Typography variant="h5" component="h2">
-                {otp.email}
+                {otp.reciever_email}
             </Typography>
+            
             <Typography className={classes.pos} color="textSecondary">
                 {accountText}
             </Typography>
+        
             </CardContent>
             <CardActions>
             <Button size="small" onClick={this.deleteClick}>Delete</Button>

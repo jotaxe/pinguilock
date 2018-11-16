@@ -7,6 +7,7 @@ module.exports = function(app) {
   app.on('connection', connection => {
     // On a new real-time connection, add it to the anonymous channel
     app.channel('anonymous').join(connection);
+    console.log("alguien ingreso anonimamente");
   });
 
   app.on('login', (authResult, { connection }) => {
@@ -21,7 +22,9 @@ module.exports = function(app) {
 
       // Add it to the authenticated user channel
       app.channel('authenticated').join(connection);
-
+      console.log("el usuario: " + connection.user.email + " se autentico via websocket");
+      app.channel(`userIds/${connection.user.id}`).join(connection);
+      console.log(`se conecto al usuario a userIds/${connection.user.id}`);
       // Channels can be named anything and joined on any condition 
       
       // E.g. to send real-time events only to admins use
@@ -37,14 +40,32 @@ module.exports = function(app) {
   });
 
   // eslint-disable-next-line no-unused-vars
-  app.publish((data, hook) => {
-    // Here you can add event publishers to channels set up in `channels.js`
-    // To publish only for a specific event use `app.publish(eventname, () => {})`
+  // app.publish((data, hook) => {
+  //   // Here you can add event publishers to channels set up in `channels.js`
+  //   // To publish only for a specific event use `app.publish(eventname, () => {})`
 
-    console.log('Publishing all events to all authenticated users. See `channels.js` and https://docs.feathersjs.com/api/channels.html for more information.'); // eslint-disable-line
+  //   // e.g. to publish all service events to all authenticated users use
 
-    // e.g. to publish all service events to all authenticated users use
-    return app.channel('authenticated');
+  //   console.log(JSON.stringify(data, null, 4) ); 
+  //   console.log(`publicando a userIds/${hook.params.user.id || data.user.id}
+  //   userIds/${data.user_id}`);
+  //   return [
+  //     hook.path === 'key' ? app.channel(`userIds/${data.userid}`) : app.channel(`userIds/${hook.params.user.id}`), 
+  //     hook.path === 'key' ? app.channel(`userIds/${data.user_id}`) : null
+  //   ]
+  // });
+
+
+  app.service('key').publish((data, hook) => {
+    console.log(`publicando a userIds/${data.user_id} como dueño`);
+    console.log(`publicando a userIds/${data.adminId} como admin`);
+    return [app.channel(`userIds/${data.user_id}`), app.channel(`userIds/${data.adminId}`)];
+  })
+
+  app.service('otp').publish((data, hook) => {
+    console.log(`publicando a userIds/${data.granted_by_user}`);
+    data.user_id ? console.log(`publicando a userIds/${data.user_id}`) : null
+    return [app.channel(`userIds/${data.granted_by_user}`), data.user_id ? app.channel(`userIds/${data.user_id}`) : null]
   });
 
   // Here you can also add service specific event publishers
