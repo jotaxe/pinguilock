@@ -9,9 +9,10 @@ module.exports = function (app) {
   });
 /**
  * {
- * name: string,
- * type: string,
- * topic: string
+ * 
+ * cam_topic: string,
+ * ext_lock_id: int,
+ * 
  * }
  */
   return Model;

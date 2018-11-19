@@ -30,14 +30,7 @@ export function setAdmin(adminMail){
 }
 
 export function addDevice(device){
-    return app.service("devices").create({topic: device.topic, name: device.name, type: device.type})
-    .then(() => {
-        if(device.type === 'lock'){
-            getMQTTInfo().then((devData) => {
-                createLock(devData.device_name, device.topic, device.name )
-            })
-        }
-    });
+    return app.service("devices").create({name: device.name, topic: device.lockTopic, cam_topic: device.camTopic})
     
 }
 

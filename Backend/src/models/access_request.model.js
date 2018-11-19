@@ -16,7 +16,7 @@ module.exports = function (app) {
     },
     access_image: {
       type: DataTypes.STRING,
-      allowNull: false
+      defaultValue: "not-set"
     }
   }, {
     hooks: {
@@ -37,7 +37,15 @@ module.exports = function (app) {
             allowNull: true
         }
       }
-    )
+    );
+    accessRequest.belongsTo(models.key,
+      {
+        foreignKey: {
+            name: 'key_id',
+            allowNull: true
+        }
+      }
+    );
 
 
   };

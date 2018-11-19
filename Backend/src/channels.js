@@ -22,9 +22,7 @@ module.exports = function(app) {
 
       // Add it to the authenticated user channel
       app.channel('authenticated').join(connection);
-      console.log("el usuario: " + connection.user.email + " se autentico via websocket");
-      app.channel(`userIds/${connection.user.id}`).join(connection);
-      console.log(`se conecto al usuario a userIds/${connection.user.id}`);
+      connection.user ? app.channel(`userIds/${connection.user.id}`).join(connection) : null;
       // Channels can be named anything and joined on any condition 
       
       // E.g. to send real-time events only to admins use

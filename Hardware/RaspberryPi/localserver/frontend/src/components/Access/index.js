@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import {getDevices, getPairs, getMQTTInfo} from '../Api/localApi';
 import DeviceCard from "./deviceCard";
-import PairCard from "./pairCard";
+
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import AddDeviceCard from "./addDeviceCard";
-import AddPairCard from "./addPairCard";
+
 import Divider from '@material-ui/core/Divider';
 import socketApp from '../Api/localApi';
 
@@ -105,28 +105,6 @@ export default class Access extends Component {
             : 
             null}
           </GridList>
-          Access Pairs
-          <br/>
-          <Divider/>
-          <br/>
-          <GridList className={styles.gridList} cols={3}>
-            <GridListTile>
-              <AddPairCard/>
-            </GridListTile>
-            {this.state.pairs ? 
-            this.state.pairs.map((pair) => {
-              return (
-                <GridListTile key={pair._id}>
-                  <PairCard
-                    pair={pair}
-                  />
-                </GridListTile>
-              )
-            }):
-            null
-            }
-          </GridList>
-
       </div>
     )
   }

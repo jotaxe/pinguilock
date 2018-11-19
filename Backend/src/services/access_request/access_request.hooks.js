@@ -1,9 +1,15 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const mqtt = require('mqtt');
-const mqttHost = "mqtt://localhost";
-const client = mqtt.connect(mqttHost);
+
+
+const feathers = require('@feathersjs/feathers');
+const configuration = require('@feathersjs/configuration');
+const conf = configuration();
+let app = feathers().configure(conf);
+
+const client = mqtt.connect(app.get('mqtt'));
 client.on('connect', function() {
-  console.log("MQTT Client running on " + mqttHost);
+  console.log("MQTT Client running on " + app.get('mqtt'));
 })
 
 const mqttCall = require('../../hooks/mqtt-call');

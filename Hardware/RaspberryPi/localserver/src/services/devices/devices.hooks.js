@@ -1,11 +1,17 @@
 
 
+const createExternalLock = require('../../hooks/create-external-lock');
+
+const addInfoToLock = require('../../hooks/add-info-to-lock');
+
+const deleteLock = require('../../hooks/delete-lock');
+
 module.exports = {
   before: {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [createExternalLock()],
     update: [],
     patch: [],
     remove: []
@@ -13,12 +19,12 @@ module.exports = {
 
   after: {
     all: [],
-    find: [],
-    get: [],
-    create: [],
+    find: [addInfoToLock()],
+    get: [addInfoToLock()],
+    create: [addInfoToLock()],
     update: [],
     patch: [],
-    remove: []
+    remove: [deleteLock()]
   },
 
   error: {

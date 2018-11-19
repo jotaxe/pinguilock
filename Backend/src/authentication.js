@@ -3,6 +3,8 @@ const jwt = require('@feathersjs/authentication-jwt');
 
 const oauth2 = require('@feathersjs/authentication-oauth2');
 
+const local = require('@feathersjs/authentication-local');
+
 const GoogleStrategy = require('passport-google-oauth20');
 const GoogleTokenStrategy = require('passport-google-token').Strategy;
 
@@ -38,6 +40,16 @@ module.exports = function (app) {
     idField: 'googleId',
   }, config.googleSignin)));
 
+  app.configure(local(Object.assign({
+    name: 'local',
+    entity: 'api_local_access',
+    service: 'api-local-access',
+    usernameField: 'username',
+    passwordField: 'password',
+    entityUsernameField: 'username',
+    entityPasswordField: 'password',
+  })))
+
   // The `authentication` service is used to create a JWT.
   // The before `create` hook registers strategies that can be used
   // to create a new valid JWT (e.g. local or oauth2)
@@ -53,7 +65,8 @@ module.exports = function (app) {
     after: {
       create: [
         async (context) => {
-          context.result.user = await context.app.service('user').get(context.params.user.id)
+
+          context.result.user = context.params.user ? await context.app.service('user').get(context.params.user.id) : null;
         }
       ]
     }

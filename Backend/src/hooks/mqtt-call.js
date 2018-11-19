@@ -7,20 +7,22 @@ module.exports = function (client, options = {}) {
     const {result} = context;
     const lock = await context.app.service('lock').get(result.lock_id);
     const localServer = await context.app.service('local-server').get(lock.local_server_id);
-    let message;
-    if (result.method === 'OTP'){
-      message = {
-        id: result.otp_id,
-        method: result.method,
-        lockTopic: lock.topic
-      };
-    }else if (result.method === 'Face'){
-      message = {
-        id: result.user_id,
-        method: result.method,
-        lockTopic: lock.topic
-      };
-    }
+    const message = {
+      accessRequest: result.id
+    };
+    // if (result.method === 'OTP'){
+    //   message = {
+    //     otp: result.otp_id,
+    //     method: result.method,
+    //     lockId: lock.id
+    //   };
+    // }else if (result.method === 'Face'){
+    //   message = {
+    //     key: result.key_id,
+    //     method: result.method,
+    //     lockId: lock.id
+    //   };
+    // }
     console.log(message);
     const jsonMessage = JSON.stringify(message);
     console.log("publishing data to topic: " + localServer.topic);

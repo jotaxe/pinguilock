@@ -1,0 +1,20 @@
+{
+    "development": {
+        "externalAuth": {
+            "username": "api",
+            "password": "123456"
+        },
+        "apiUrl": "http://localhost:3030",
+        "localApi": "http://localhost:3031",
+        "mqtt": "mqtt://localhost"
+    },
+    "production": {
+        "externalAuth": {
+            "username": "api",
+            "password": "123456"
+        },
+        "apiUrl": "http://18.191.188.122:3030",
+        "localApi": "http://localhost:3031",
+        "mqtt": "mqtt://18.191.188.122"
+    }
+}

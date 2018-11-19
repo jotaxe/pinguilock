@@ -54,9 +54,9 @@ function getModalStyle() {
 class AddDeviceCard extends Component {
     state = {
         modal: false,
-        addDeviceTextField: undefined,
-        addDeviceType: "",
-        addDeviceTopic: ""
+        lockTopic: undefined,
+        camTopic: undefined,
+        accessName: undefined
     };
     handleOpen = () => { 
         this.setState({modal: true});
@@ -66,30 +66,31 @@ class AddDeviceCard extends Component {
         this.setState({modal: false});
     }
 
-    deviceNameChange = (ev) => {
-        this.setState({addDeviceTextField: ev.target.value});
+    accessNameChange = (ev) => {
+        this.setState({accessName: ev.target.value});
     }
 
-    deviceTopicChange = (ev) => {
-        this.setState({addDeviceTopic: ev.target.value});
+    camTopicChange = (ev) => {
+        this.setState({camTopic: ev.target.value});
+    }
+    lockTopicChange = (ev) => {
+        this.setState({lockTopic: ev.target.value});
     }
 
-    handleTypeChange = (ev) => {
-        this.setState({addDeviceType: ev.target.value});
-    }
 
     createDevice = () => {
-        const { addDeviceTextField, addDeviceType, addDeviceTopic } = this.state;
+        const { accessName,  lockTopic, camTopic } = this.state;
         const device = {
-            name: addDeviceTextField, 
-            type: addDeviceType,
-            topic: addDeviceTopic
+            name: accessName, 
+            lockTopic: lockTopic,
+            camTopic: camTopic
         };
         addDevice(device);
         this.setState({
             modal: false,
-            addDeviceTextField: undefined,
-            addDeviceType: ""
+            name: "", 
+            lockTopic: "",
+            camTopic: ""
         });
     }
 
@@ -124,32 +125,24 @@ class AddDeviceCard extends Component {
                     >
                         <div className={classes.modalPaper} style={getModalStyle()}>
                             <Typography variant="h6" id="modal-title">
-                                Add a Device
+                                Add an Access
                             </Typography>
                             <Divider/>
                             <br/>
                             <TextField 
-                            label="Device Name" 
-                            onChange={this.deviceNameChange} 
-                            />
-                            <TextField 
-                            label="Device Topic" 
-                            onChange={this.deviceTopicChange} 
+                            label="Access Name" 
+                            onChange={this.accessNameChange} 
                             />
                             <br/>
-                            <InputLabel htmlFor="dev-sel">Device Type</InputLabel>
-                            <Select
-                            className={classes.createDeviceSelect}
-                            onChange={this.handleTypeChange}
-                            value={this.state.addDeviceType}
-                            inputProps={{
-                                name: "device-type",
-                                id: "dev-sel"
-                            }}
-                            >
-                                <MenuItem value="cam">Camera</MenuItem>
-                                <MenuItem value="lock">Lock</MenuItem>
-                            </Select>
+                            <TextField 
+                            label="Lock Topic" 
+                            onChange={this.lockTopicChange} 
+                            />
+                            <br/>
+                            <TextField 
+                            label="Cam Topic" 
+                            onChange={this.camTopicChange} 
+                            />
                             <br/>
                             <Button 
                             className={classes.creteDeviceButton} 

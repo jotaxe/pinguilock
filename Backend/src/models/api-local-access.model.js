@@ -5,8 +5,12 @@ const DataTypes = Sequelize.DataTypes;
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const key = sequelizeClient.define('key', {
-    name: {
+  const apiLocalAccess = sequelizeClient.define('api_local_access', {
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    password: {
       type: DataTypes.STRING,
       allowNull: false
     }
@@ -19,13 +23,10 @@ module.exports = function (app) {
   });
 
   // eslint-disable-next-line no-unused-vars
-  key.associate = function (models) {
-    key.hasOne(models.face,{foreignKey:'key_id'})
-    key.hasMany(models.access_request,{foreignKey:'key_id'})
-    key.belongsTo(models.user,{foreignKey:'user_id'})
-    key.belongsTo(models.lock,{foreignKey:'lock_id'})
+  apiLocalAccess.associate = function (models) {
+    // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
   };
 
-  return key;
+  return apiLocalAccess;
 };

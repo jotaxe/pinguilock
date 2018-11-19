@@ -6,5 +6,12 @@
     "default": 10,
     "max": 50
   },
-  "nedb": "../data"
+  "nedb": "../data",
+  "externalApi": {
+    "url": "http://192.168.0.11:3030",
+    "credentials":{
+      "username":"api",
+      "password":"123456"
+    }
+  }
 }

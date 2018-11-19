@@ -1,0 +1,22 @@
+{
+  "name": "nodeclient",
+  "version": "1.0.0",
+  "description": "cliente mqtt de la raspberryPi",
+  "main": "main.js",
+  "scripts": {
+    "test": "test",
+    "start": "node main.js"
+  },
+  "author": "Juan Edwards",
+  "license": "MIT",
+  "dependencies": {
+    "@feathersjs/authentication-client": "^1.0.8",
+    "@feathersjs/feathers": "^3.2.3",
+    "@feathersjs/rest-client": "^1.4.5",
+    "@feathersjs/socketio-client": "^1.1.5",
+    "mqtt": "^2.18.8",
+    "node-fetch": "^2.3.0",
+    "node-localstorage": "^1.3.1",
+    "socket.io-client": "^2.1.1"
+  }
+}

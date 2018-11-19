@@ -7,6 +7,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {deleteDevice} from "../Api/localApi";
+import { faLock, faVideo } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const styles = {
   card: {
@@ -31,14 +33,14 @@ class DeviceCard extends Component {
     return (
       <Card className={classes.card}>
         <CardContent>
-          <Typography className={classes.title} color="textSecondary" gutterBottom>
-            {device.type}
-          </Typography>
           <Typography variant="h5" component="h2">
             {device.name}
           </Typography>
+          <Typography className={classes.title} color="textSecondary" gutterBottom>
+          <FontAwesomeIcon icon={faVideo} /> {localname}/{device.cam_topic}
+          </Typography>
           <Typography className={classes.pos} color="textSecondary">
-            {localname}/{device.topic}
+          <FontAwesomeIcon icon={faLock} />{localname}/{device.lock_topic}
           </Typography>
         </CardContent>
         <CardActions>
