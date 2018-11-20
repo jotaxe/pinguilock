@@ -1,4 +1,4 @@
-import { createLock, deleteLock } from './externalApi';
+import { deleteLock } from './externalApi';
 
 const feathers = require('@feathersjs/feathers');
 const socketio = require('@feathersjs/socketio-client');
@@ -18,10 +18,12 @@ socketApp.configure(socketio(socket));
 
 
 export function getMQTTInfo(){
+    
     return app.service("mqtt-info").get(1);
 }
 
 export function getAdmin(){
+    
     return app.service("admin-user").get(1);
 }
 
@@ -30,7 +32,7 @@ export function setAdmin(adminMail){
 }
 
 export function addDevice(device){
-    return app.service("devices").create({name: device.name, topic: device.lockTopic, cam_topic: device.camTopic})
+    return app.service("devices").create({name: device.name, topic: device.lockTopic, cam_topic: device.camTopic}).then((res)=> {console.log(res);})
     
 }
 

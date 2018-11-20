@@ -21,36 +21,45 @@ app.configure(auth({storage: window.localStorage}));
 
 
 export function authenticate(googleToken){
+    console.log("authenticating");
     return app.authenticate({
         strategy: "google-token",
         access_token: googleToken
-    }).then((res) => {return res});
+    }).then((res) => {console.log(res); return res});
 }
 
 export function createLocalServer(admin, topic){
-    return app.service('local-server').create({
-        admin: admin,
-        topic: topic
+    app.authenticate().then(() => {
+        return app.service('local-server').create({
+            admin: admin,
+            topic: topic
+        });
     });
+    
 }
 
 export function createLock(local_server, topic, name){
-    return app.service('local-server').find({query: { topic: local_server}})
-    .then( (localServer) => {
+    return app.authenticate().then(() => {
+        return app.service('local-server').find({query: { topic: local_server}})
+        .then( (localServer) => {
         
-        return app.service('lock').create({
-            local_server_id: localServer.data[0].id,
-            topic,
-            name
-        });
+            return app.service('lock').create({
+                local_server_id: localServer.data[0].id,
+                topic,
+                name
+            });
+        })
+
     })
 }
 
 export function deleteLock(local_server, topic){
-    return app.service('local-server').find({query: {topic: local_server}})
-    .then( (localServer) => {
-        return app.service('lock').remove(null, {query: {local_server_id: localServer.data[0].id, topic}});
-    })
+    return app.authenticate().then(() => {
+        return app.service('local-server').find({query: {topic: local_server}})
+        .then( (localServer) => {
+            return app.service('lock').remove(null, {query: {local_server_id: localServer.data[0].id, topic}});
+        });
+    }) 
 }
 
 export function getOTPs(){

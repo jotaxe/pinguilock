@@ -1,7 +1,7 @@
 {
   "host": "localhost",
   "port": 3030,
-  "public": "../public/",
+  "public": "../public/build/",
   "paginate": {
     "default": 10,
     "max": 50
@@ -30,7 +30,7 @@
     "google": {
       "clientID": "722683943139-t6d2rtpcptrbt7l292c4rnmqdl2v446v.apps.googleusercontent.com",
       "clientSecret": "NpRgNDqOoQY77AlQIMyUoRHQ",
-      "successRedirect": "/",
+      "successRedirect": "/redirect",
       "scope": [
         "profile openid email"
       ]

@@ -130,13 +130,35 @@ client.on('message', async (topic, message) => {
                     };
                     const otp = await fetch(`${conf.apiUrl}/otp/${jsonMessage.id}`, getData);
                     const res = await otp.json();
+                    const lockRes = await fetch(`${conf.apiUrl}/lock/${res.lock_id}`, getData);
+                    const lock = await lockRes.json();
+                    const localServer = await localApp.service('mqtt-info').get(1);
+                    var access = 0;
                     if(res.secret_code === decoded){
+                        access = 1;
+                        console.log("OTP Valid");
                         await fetch(`${conf.apiUrl}/otp/${jsonMessage.id}`, patchData);
-                        console.log("otp updated");
+                        console.log("OTP Updated, no longer avialable");
                     }
                     cv.imwrite(`./images/accessRequest${jsonMessage.accessId}.jpg`, frame)
-                    console.log("finishing");
+                    const accessReqPatch = {
+                        method: 'PATCH',
+                        headers: {
+                            'Authorization': localStorage.getItem('accessToken'),
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            successfull: access,
+                            imgUri: "data:image/jpeg;base64," + outB64
+                        })
+                    }
+                    console.log(outB64);
+                    await fetch(`${conf.apiUrl}/access-request/${jsonMessage.accessId}`, accessReqPatch);
+                    console.log("Log created.");
                     clearInterval(otpInt)
+                    console.log(`Publishing ${access} to ${localServer.device_name}/${lock.topic}`);
+                    client.publish(`${localServer.device_name}/${lock.topic}`, access)
                 }
                 
             });

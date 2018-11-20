@@ -18,6 +18,12 @@ const mqttCall = require('../../hooks/mqtt-call');
 const getAccessRequest = require('../../hooks/get-access-request');
 
 
+const uploadAccessImage = require('../../hooks/upload-access-image');
+
+
+const addImageToResult = require('../../hooks/add-image-to-result');
+
+
 module.exports = {
   before: {
     all: [ authenticate('jwt')],
@@ -25,17 +31,17 @@ module.exports = {
     get: [],
     create: [],
     update: [],
-    patch: [],
+    patch: [uploadAccessImage()],
     remove: []
   },
 
   after: {
     all: [],
-    find: [],
-    get: [getAccessRequest()],
+    find: [addImageToResult()],
+    get: [getAccessRequest(), addImageToResult()],
     create: [mqttCall(client)],
     update: [],
-    patch: [],
+    patch: [addImageToResult()],
     remove: []
   },
 

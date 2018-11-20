@@ -1,11 +1,18 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
+const dauria = require('dauria');
 
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
     find: [],
     get: [],
-    create: [],
+    create: [function(context) {
+      if (!context.data.uri && context.params.file){
+          const file = context.params.file;
+          const uri = dauria.getBase64DataURI(file.buffer, file.mimetype);
+          context.data = {uri: uri};
+      }
+  }],
     update: [],
     patch: [],
     remove: []

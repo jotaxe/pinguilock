@@ -12,10 +12,10 @@ module.exports = function (options = {}) {
     const extLocalServer = await extApp.service('local-server').find({query: {topic: device_name}});
     const local_server_id = extLocalServer.data[0].id;
     const extLock = await extApp.service('lock').create({topic, name, local_server_id});
-    const extLockId = toString(extLock.id);
+    const extLockId = extLock.id;
     context.data = {
       cam_topic: context.data.cam_topic,
-      ext_lock_id: extLockId,
+      ext_lock_id: `${extLockId}`,
     }
     return context;
   };

@@ -16,7 +16,7 @@ module.exports = function (app) {
     },
     access_image: {
       type: DataTypes.STRING,
-      defaultValue: "not-set"
+      defaultValue: "default.png"
     }
   }, {
     hooks: {

@@ -37,11 +37,13 @@ export default class Login extends Component {
     firstLoginResponse = (response) => {
         const adminMail = response.profileObj.email;
         setAdmin(adminMail).then( () => {
-            
+            console.log("adminSet");
             authenticate(response.Zi.access_token).then( (res) => {
+                console.log("authenticated");
                 localStorage.setItem("user", res.user.id);
             }).then( () => {
                 getMQTTInfo().then( (devData) => {
+                    console.log("mqtt Info");
                     const user = localStorage.getItem('user');
                     createLocalServer(user, devData.device_name).then( () => {
                         window.location.href = "/";
