@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   Platform,
@@ -12,21 +6,20 @@ import {
   View
 } from 'react-native';
 import styles from '../Styles/index';
-//import {List, } from 
 
-export default class Home extends Component{
+//import TopTab from "../TopTab";
+import { AsyncStorage } from "react-native";
+import {fetchUserKeys} from "../Api";
 
-  constructor (){
-    super()
-    this.state = {
-      datos:[]
-    }
-  }
+
+
+
+export default class Locks extends Component{
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.heading}>
-          Home
+          Ventana locks 
         </Text>
       </View>
     );
