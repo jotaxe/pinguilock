@@ -1,6 +1,6 @@
 {
   "host": "ec2-18-191-188-122.us-east-2.compute.amazonaws.com",
-  "port": 80,
+  "port": 3030,
   "public": "../public/production/build/",
   "paginate": {},
   "mysql": "mysql://api:api@18.191.188.122:3306/pinguilock",
