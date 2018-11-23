@@ -153,7 +153,6 @@ client.on('message', async (topic, message) => {
                             imgUri: "data:image/jpeg;base64," + outB64
                         })
                     }
-                    console.log(outB64);
                     await fetch(`${conf.apiUrl}/access-request/${jsonMessage.accessId}`, accessReqPatch);
                     console.log("Log created.");
                     clearInterval(otpInt)

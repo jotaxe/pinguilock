@@ -30,6 +30,8 @@ module.exports = function (options = {}) {
           context.result.otp = otp.secret_code;
         }
       }
+      const accessImage = await context.app.service('uploads').get(context.result.access_image);
+      context.result.access_image = accessImage.uri;
     }
     return context;
   };
