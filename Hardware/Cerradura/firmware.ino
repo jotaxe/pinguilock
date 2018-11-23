@@ -59,7 +59,7 @@ void setup_wifi() {
   digitalWrite(redLed, LOW);
   digitalWrite(greenLed, HIGH);
   HTTPClient http;
-  http.begin("http://pinguilock.local:3030/mqtt-info/1");
+  http.begin("http://pinguilock.local:3031/mqtt-info/1");
   int httpCode = http.GET();
   if(httpCode > 0){
     StaticJsonBuffer<200> jsonBuffer;

@@ -1,6 +1,17 @@
 {
-  "host": "18.191.188.122",
+  "host": "localhost",
   "port": 3031,
-  "public": "../public/",
-  "nedb": "../data"
+  "public": "../frontend/build",
+  "paginate": {
+    "default": 10,
+    "max": 50
+  },
+  "nedb": "../data",
+  "externalApi": {
+    "url": "http://18.191.188.122",
+    "credentials":{
+      "username":"api",
+      "password":"123456"
+    }
+  }
 }
