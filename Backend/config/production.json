@@ -1,6 +1,6 @@
 {
   "host": "ec2-18-191-188-122.us-east-2.compute.amazonaws.com",
-  "port": 3030,
+  "port": 80,
   "public": "../public/production/build/",
   "paginate": {},
   "mysql": "mysql://api:api@18.191.188.122:3306/pinguilock",
@@ -24,23 +24,23 @@
       "expiresIn": "1d"
     },
     "google": {
-      "clientID": "744835113496-c5rdlls8jfb00ab2jsbq7k1ok7ogflmq.apps.googleusercontent.com",
-      "clientSecret": "js_-mGV9DsgvP1U_aMzQ8Nsf",
+      "clientID": "744835113496-d641luokrsnlq41ck00jvo11gb3ngtnb.apps.googleusercontent.com",
+      "clientSecret": "TTBA4LdXcmM3bRojaD1iqWai",
       "successRedirect": "/redirect",
       "scope": [
         "profile openid email"
       ]
     },
     "googleToken": {
-      "clientID": "744835113496-c5rdlls8jfb00ab2jsbq7k1ok7ogflmq.apps.googleusercontent.com",
-      "clientSecret": "js_-mGV9DsgvP1U_aMzQ8Nsf",
+      "clientID": "744835113496-d641luokrsnlq41ck00jvo11gb3ngtnb.apps.googleusercontent.com",
+      "clientSecret": "TTBA4LdXcmM3bRojaD1iqWai",
       "scope": [
         "profile openid email"
       ]
     },
     "googleSignin": {
-      "clientID": "744835113496-c5rdlls8jfb00ab2jsbq7k1ok7ogflmq.apps.googleusercontent.com",
-      "clientSecret": "js_-mGV9DsgvP1U_aMzQ8Nsf",
+      "clientID": "744835113496-d641luokrsnlq41ck00jvo11gb3ngtnb.apps.googleusercontent.com",
+      "clientSecret": "TTBA4LdXcmM3bRojaD1iqWai",
       "successRedirect": "/otpView",
       "scope": [
         "profile openid email"
