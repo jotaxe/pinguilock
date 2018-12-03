@@ -12,7 +12,7 @@ module.exports = function (options = {}) {
       }
     });
     console.log(adminLocalServers);
-    const localServers = adminLocalServers.data.map((obj) => obj.id);
+    const localServers = adminLocalServers.data ? adminLocalServers.data.map((obj) => obj.id) : [];
     const adminLock = await context.app.service('lock').find(
       {
         $select: ["topic", "local_server_id", "id"],
