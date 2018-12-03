@@ -29,7 +29,7 @@ module.exports = function (options = {}) {
           }
         }
       }): null;
-      context.result.data = context.result.data.filter((otp) => {return otp !== null}) 
+      context.result.data = context.result.data ? context.result.data.filter((otp) => {return otp !== null}) : null; 
       if(timedOutOTP !== []){
         context.app.service('otp').patch(null, {status: 'timedout'}, {
           query: {
