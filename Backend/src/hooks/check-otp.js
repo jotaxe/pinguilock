@@ -16,7 +16,7 @@ module.exports = function (options = {}) {
         delete context.result.secret_code;
       }
     }else if(context.method === 'find'){
-      const timedOutOTP = context.result.data.map((otp, index) => {
+      const timedOutOTP = context.result.data ? context.result.data.map((otp, index) => {
         if( (actualDate > otp.timeout) && (otp.status !== 'timedout' && otp.status !== 'inactive') ){
           delete context.result.data[index].status;
           delete context.result.data[index].secret_code;
@@ -28,7 +28,7 @@ module.exports = function (options = {}) {
             delete context.result.data[index];
           }
         }
-      });
+      }): null;
       context.result.data = context.result.data.filter((otp) => {return otp !== null}) 
       if(timedOutOTP !== []){
         context.app.service('otp').patch(null, {status: 'timedout'}, {
