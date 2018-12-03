@@ -8,7 +8,7 @@
   },
   "nedb": "../data",
   "externalApi": {
-    "url": "http://18.191.188.122",
+    "url": "https://www.pinguilok.tk",
     "credentials":{
       "username":"api",
       "password":"123456"

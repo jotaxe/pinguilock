@@ -7,6 +7,7 @@ const localServer = require('./local_server/local_server.service.js');
 const lock = require('./lock/lock.service.js');
 const uploads = require('./uploads/uploads.service.js');
 const apiLocalAccess = require('./api-local-access/api-local-access.service.js');
+const mailer = require('./mailer/mailer.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(face);
@@ -18,4 +19,5 @@ module.exports = function (app) {
   app.configure(lock);
   app.configure(uploads);
   app.configure(apiLocalAccess);
+  app.configure(mailer);
 };
