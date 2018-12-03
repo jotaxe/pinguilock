@@ -16,10 +16,10 @@ module.exports = function (options = {}) {
           }
         }
       });
-      context.result.data.map((key, index) => {
+      context.result.data ? context.result.data.map((key, index) => {
         const face = faces.data.find((face) => face.key_id === key.id);
         context.result.data[index].image_path = face.image_path;
-      });
+      }) : null;
       
     }
     return context;
