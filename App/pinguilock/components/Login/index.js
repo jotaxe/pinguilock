@@ -28,10 +28,13 @@ export default class LoginScreen extends Component {
             Promise.resolve(GoogleSignIn.signInPromise()).then((user) => {
                 alert(JSON.stringify(user));
                 authenticate(user.accessToken).then( (r) => {
+                  
                     r.accessToken ? this.props.navigation.navigate('Pi') : null;
                     AsyncStorage.setItem("userID", user.userID);
 
-                })
+                }).catch((e) => {
+                  alert(e)
+                });
             })
           });
 
