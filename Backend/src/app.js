@@ -25,12 +25,12 @@ const authentication = require('./authentication');
 
 const app = express(feathers());
 
-// const server = https.createServer({
-//     key: fs.readFileSync('/etc/letsencrypt/live/pinguilock.tk/privkey.pem'),
-//     cert: fs.readFileSync('/etc/letsencrypt/live/pinguilock.tk/cert.pem')
-// }, app).listen(443);
+const server = https.createServer({
+    key: fs.readFileSync('/etc/letsencrypt/live/pinguilock.tk/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/pinguilock.tk/cert.pem')
+}, app).listen(443);
 
-// app.setup(server);
+app.setup(server);
 
 // Load app configuration
 app.configure(configuration());

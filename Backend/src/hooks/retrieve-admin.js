@@ -12,15 +12,15 @@ module.exports = function (options = {}) {
       }
     });
 
-    const localServers = adminLocalServers.data.map((obj) => obj.id);
-    const adminLock = await context.app.service('lock').find(
+    const localServers = adminLocalServers ? adminLocalServers.data.map((obj) => obj.id) : null;
+    const adminLock = localServer ? await context.app.service('lock').find(
       {
         $select: ["topic", "local_server_id", "id"],
         local_server_id: {
           $in: localServers
         }
       }
-    );
+    ): null;
 
     const userKeys = await context.app.service('key').find(
       {

@@ -1,9 +1,27 @@
 const confFile = require('./config.json');
 const conf = process.env.NODE_ENV === 'production' ? confFile.production : confFile.development;
 
+
 var Jimp = require("jimp");
 var QrCode = require('qrcode-reader');
 var qr = new QrCode();
+
+function getBinary(encodedFile) {
+    var binaryImg = atob(encodedFile);
+    var length = binaryImg.length;
+    var ab = new ArrayBuffer(length);
+    var ua = new Uint8Array(ab);
+    for (var i = 0; i < length; i++) {
+      ua[i] = binaryImg.charCodeAt(i);
+    }
+
+    return ab;
+}
+
+
+var AWS = require('aws-sdk');
+AWS.config.update({region:'us-east-1'});
+var rekognition = new AWS.Rekognition();
 
 
 if (typeof localStorage === "undefined" || localStorage === null) {
@@ -68,21 +86,72 @@ client.on('message', async (topic, message) => {
     const jsonMessage = JSON.parse(message);
     switch (jsonMessage.method) {
         case "Face":
+            
             var faceInt = setInterval( async () => {
                 await camera.readAsync(async (err, frame) => {
                     if (err) throw err;
+                    var outB64 = await cv.imencodeAsync('.jpg', frame);
+                        outB64 = outB64.toString('base64');
+                        const srcImg = getBinary(outB64);
+                        const data = {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': localStorage.getItem('accessToken'),
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            }
+                        };
+                        const accessReqPatch = {
+                            method: 'PATCH',
+                            headers: {
+                                'Authorization': localStorage.getItem('accessToken'),
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                successfull: access,
+                                imgUri: "data:image/jpeg;base64," + outB64
+                            })
+                        }
                     const options = {
                         minSize: new cv.Size(100, 100),
                         scaleFactor: 1.2,
                         minNeighbors: 10
                     };
+
                     const facesInFrame = await classifier.detectMultiScaleAsync(frame, options);
                     const {objects, numDetections} = facesInFrame;
                     if(!objects.length){
                         console.log("No face detected");
                     }else{
-                        console.log("face detected!");
-                        cv.imwrite(`./images/accessRequest${jsonMessage.accessId}.jpg`)
+                        
+                        const targImg = getBinary(access_image.split('base64,')[1])
+                        const params = {
+                            SimilarityThreshold: 90,
+                            SourceImage: {
+                                Bytes: srcImg
+                            },
+                            TargetImage: {
+                                Bytes: targImg
+                            }
+                        }
+
+                        rekognition.compareFaces(params, (err, data) => {
+                            if(err){
+                                console.log(err);
+                            }else{
+                                var access = 0;
+                                if(data.FaceMatches.length > 0){
+                                    access = 1;
+                                }else{
+                                    access = 0;
+                                }
+                                cv.imwrite(`./images/accessRequest${jsonMessage.accessId}.jpg`, frame);
+                                client.publish(`${localServer.device_name}/${lock.topic}`, access)
+                                await fetch(`${conf.apiUrl}/access-request/${jsonMessage.accessId}`, accessReqPatch);
+                            }
+                        });
+                        
                     }
                 })
             }, 600);
@@ -166,7 +235,6 @@ client.on('message', async (topic, message) => {
             console.log("Waiting 8 sec after terminate.");
             clearInterval(otpInt)
         }, 8000);
-
             break;
     
         default:
