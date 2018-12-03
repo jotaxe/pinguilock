@@ -8,7 +8,7 @@ module.exports = function (options = {}) {
       const face = await context.app.service('face').find({query: {key_id: context.result.id}});
       context.result.image_path = face.data[0].image_path;
     }else if(context.method === 'find'){
-      const keysId = context.result.data.map((key) => {return key.id});
+      const keysId = context.result.data ? context.result.data.map((key) => {return key.id}) : [];
       const faces = await context.app.service('face').find({
         query: {
           key_id: {
