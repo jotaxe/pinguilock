@@ -3,7 +3,7 @@ const socketio = require('@feathersjs/socketio-client');
 const io = require('socket.io-client');
 const auth = require('@feathersjs/authentication-client');
 
-const socket = io('http://18.191.188.122');
+const socket = io();
 const app = feathers();
 
 // Set up Socket.io client with the socket
