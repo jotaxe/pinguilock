@@ -73,9 +73,9 @@ class AddKeyCard extends Component {
             
         }).then(() => {
             app.service('user').find({query: {$select: ['id', 'email']}}).then( (res) => {
-                
-                this.setState({suggestions: res.data})
-            })
+                console.log(res);
+                this.setState({suggestions: res})
+            });
         });
     }
     handleOpen = () => { 
@@ -87,8 +87,6 @@ class AddKeyCard extends Component {
     }
 
     emailChange = (event, {newValue}) => {
-        
-        
         const userArray = this.state.suggestions.filter(suggestion => suggestion.email === newValue)
         const userObject = userArray[0] ? userArray[0] : [];
         console.log(userObject); 
