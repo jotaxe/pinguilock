@@ -5,10 +5,10 @@ const socketio = require('@feathersjs/socketio-client');
 const io = require('socket.io-client');
 const app = feathers();
 const socketApp = feathers();
-const socket = io('http://192.168.0.11:3032'); //direccion de la api
+const socket = io('http://pinguilock.local:3032'); //direccion de la api
 const auth = require('@feathersjs/authentication-client')
 const rest = require('@feathersjs/rest-client');
-const restClient = rest('http://192.168.0.11:3031')
+const restClient = rest('http://pinguilock.local')
 
 app.configure(restClient.fetch(window.fetch));
 socketApp.configure(socketio(socket));
