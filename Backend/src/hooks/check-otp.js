@@ -28,7 +28,7 @@ module.exports = function (options = {}) {
             delete context.result.data[index];
           }
         }
-      }): null;
+      }): [];
       context.result.data = context.result.data ? context.result.data.filter((otp) => {return otp !== null}) : null; 
       if(timedOutOTP !== []){
         context.app.service('otp').patch(null, {status: 'timedout'}, {
