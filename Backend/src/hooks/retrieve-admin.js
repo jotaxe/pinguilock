@@ -12,7 +12,7 @@ module.exports = function (options = {}) {
       }
     });
     console.log(adminLocalServers);
-    const localServers = adminLocalServers.data ? adminLocalServers.data.map((obj) => obj.id) : [];
+    const localServers = adminLocalServers ? adminLocalServers.map((obj) => obj.id) : [];
     const adminLock = localServers.length > 0 ? await context.app.service('lock').find(
       {
         $select: ["topic", "local_server_id", "id"],
@@ -53,11 +53,11 @@ module.exports = function (options = {}) {
     )
 
 
-    context.result.grantedOTPs = grantedByUserOTPs.data || [];
-    context.result.userOTP = userOTP.data || [];
-    context.result.keys = userKeys.data || [];
-    context.result.pinguilocks = adminLocalServers.data || [];
-    context.result.locks = adminLock.data || [];
+    context.result.grantedOTPs = grantedByUserOTPs || [];
+    context.result.userOTP = userOTP || [];
+    context.result.keys = userKeys || [];
+    context.result.pinguilocks = adminLocalServers || [];
+    context.result.locks = adminLock || [];
     context.result.admin = context.result.pinguilocks.length > 0 ? true : false;
     return context;
   };
