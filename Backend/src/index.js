@@ -2,7 +2,14 @@
 const logger = require('./logger');
 const app = require('./app');
 const port = app.get('port');
-const server = app.listen(port);
+
+const server = https.createServer({
+  key: fs.readFileSync('/etc/letsencrypt/live/pinguilock.tk/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/pinguilock.tk/cert.pem')
+}, app).listen(443);
+
+app.setup(server);
+
 
 process.on('unhandledRejection', (reason, p) =>
   logger.error('Unhandled Rejection at: Promise ', p, reason)
