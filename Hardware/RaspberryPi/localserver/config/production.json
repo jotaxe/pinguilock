@@ -1,5 +1,5 @@
 {
-  "host": "localhost",
+  "host": "pinguilock.local",
   "port": 80,
   "public": "../frontend/build",
   "paginate": {},

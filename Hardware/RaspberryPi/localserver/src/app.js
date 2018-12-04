@@ -36,7 +36,7 @@ app.use('/login', express.static(app.get('public')));
 
 // Set up Plugins and providers
 app.configure(express.rest());
-app.configure(socketio(3032));
+//app.configure(socketio(3032));
 
 // Configure other middleware (see `middleware/index.js`)
 app.configure(middleware);
