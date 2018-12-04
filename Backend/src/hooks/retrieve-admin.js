@@ -53,11 +53,11 @@ module.exports = function (options = {}) {
     )
 
 
-    context.result.grantedOTPs = grantedByUserOTPs.data;
-    context.result.userOTP = userOTP.data;
-    context.result.keys = userKeys.data;
-    context.result.pinguilocks = adminLocalServers.data;
-    context.result.locks = adminLock.data;
+    context.result.grantedOTPs = grantedByUserOTPs.data || [];
+    context.result.userOTP = userOTP.data || [];
+    context.result.keys = userKeys.data || [];
+    context.result.pinguilocks = adminLocalServers.data || [];
+    context.result.locks = adminLock.data || [];
     context.result.admin = context.result.pinguilocks ? true : false;
     return context;
   };
