@@ -19,7 +19,7 @@ module.exports = function (options = {}) {
       });
       console.log(extLocks);
       context.result.data.map( async (device, index) => {
-        const extLock = await extLocks.data.find(lock => lock.id === parseInt(device.ext_lock_id));
+        const extLock = await extLocks.find(lock => lock.id === parseInt(device.ext_lock_id));
         context.result.data[index].name = extLock ? extLock.name : 0;
         context.result.data[index].lock_topic = extLock ? extLock.topic : 0;
       });
