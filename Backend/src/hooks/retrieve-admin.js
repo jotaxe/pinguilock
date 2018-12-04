@@ -58,7 +58,7 @@ module.exports = function (options = {}) {
     context.result.keys = userKeys.data || [];
     context.result.pinguilocks = adminLocalServers.data || [];
     context.result.locks = adminLock.data || [];
-    context.result.admin = context.result.pinguilocks ? true : false;
+    context.result.admin = context.result.pinguilocks.length > 0 ? true : false;
     return context;
   };
 };
