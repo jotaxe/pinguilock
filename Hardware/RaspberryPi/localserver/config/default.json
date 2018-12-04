@@ -8,7 +8,7 @@
   },
   "nedb": "../data",
   "externalApi": {
-    "url": "http://www.pinguilock.tk",
+    "url": "https://www.pinguilock.tk",
     "credentials":{
       "username":"api",
       "password":"123456"
