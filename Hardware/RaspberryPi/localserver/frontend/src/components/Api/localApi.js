@@ -8,7 +8,7 @@ const socketApp = feathers();
 const socket = io('http://localhost:3032'); //direccion de la api
 const auth = require('@feathersjs/authentication-client')
 const rest = require('@feathersjs/rest-client');
-const restClient = rest('http://localhost:3031')
+const restClient = rest('http://localhost:80')
 
 app.configure(restClient.fetch(window.fetch));
 socketApp.configure(socketio(socket));

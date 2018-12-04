@@ -1,11 +1,8 @@
 {
   "host": "localhost",
-  "port": 3031,
+  "port": 80,
   "public": "../frontend/build",
-  "paginate": {
-    "default": 10,
-    "max": 50
-  },
+  "paginate": {},
   "nedb": "../data",
   "externalApi": {
     "url": "https://www.pinguilok.tk",
