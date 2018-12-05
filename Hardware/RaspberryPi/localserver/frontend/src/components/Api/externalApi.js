@@ -8,10 +8,10 @@ const feathers = require('@feathersjs/feathers');
 const socketio = require('@feathersjs/socketio-client');
 const io = require('socket.io-client');
 const app = feathers();
-const socket = io('http://www.pinguilock.tk'); //direccion de la api
+const socket = io('18.191.188.122'); //direccion de la api
 const auth = require('@feathersjs/authentication-client')
 const rest = require('@feathersjs/rest-client');
-const restClient = rest('http://www.pinguilock.tk')
+const restClient = rest('18.191.188.122')
 
 //app.configure(restClient.fetch(window.fetch));
 app.configure(socketio(socket));
