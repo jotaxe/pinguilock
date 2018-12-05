@@ -1,18 +1,21 @@
 /* eslint-disable no-console */
 const https = require('https');
+const http = require('http')
 const fs = require('fs');
 
 const logger = require('./logger');
 const app = require('./app');
+const api = require('./app');
 const port = app.get('port');
 
 const opt = {
   key: fs.readFileSync('/etc/letsencrypt/live/pinguilock.tk/privkey.pem'),
   cert: fs.readFileSync('/etc/letsencrypt/live/pinguilock.tk/cert.pem')
 }
-app.listen(port);
 const server = https.createServer(opt, app).listen(443);
-app.setup(server);
+
+app.setup(server)
+app.listen(port, "18.191.188.122");
 
 
 

@@ -5,7 +5,7 @@ const auth = require('@feathersjs/authentication-client')
 const client = feathers();
 
 // Connect to a different URL
-const restClient = rest('https://18.191.188.122/')
+const restClient = rest('http://18.191.188.122:80/')
 
 // Configure an AJAX library (see below) with that client 
 client.configure(restClient.fetch(fetch));
