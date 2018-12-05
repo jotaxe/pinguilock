@@ -33,7 +33,7 @@ module.exports = function (options = {}) {
 
     const grantedByUserOTPs = await context.app.service('otp').find(
       {
-        $select: ['id', 'status', 'lock_id', 'user_id', 'timeout'],
+        $select: ['id', 'status', 'lock_id', 'user_id', 'timeout', 'reciever_email'],
         query: { 
           granted_by_user: context.result.id,
           status: {
