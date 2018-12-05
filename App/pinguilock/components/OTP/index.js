@@ -9,7 +9,7 @@ import {
   FlatList,
   Alert
 } from 'react-native';
-import styles from '../../styles/index';
+import styles from '../Styles/index';
 //import email from 'react-native-email';
 import { Icon } from 'react-native-elements';
 import Modal from "react-native-modal";
