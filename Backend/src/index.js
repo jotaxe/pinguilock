@@ -5,7 +5,7 @@ const fs = require('fs');
 
 const logger = require('./logger');
 const app = require('./app');
-const api = require('./app');
+const httpApp = require('./httpApp');
 const port = app.get('port');
 
 const opt = {
@@ -13,8 +13,8 @@ const opt = {
   cert: fs.readFileSync('/etc/letsencrypt/live/pinguilock.tk/cert.pem')
 }
 const server = https.createServer(opt, app).listen(443);
-const httpServ = http.createServer(app).listen(80);
-app.setup(httpServ);
+const httpServ = http.createServer(httpApp).listen(3030);
+httpApp.setup(httpServ);
 app.setup(server)
 
 
