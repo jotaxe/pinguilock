@@ -11,9 +11,10 @@ const httpsServer = https.createServer({
   cert: fs.readFileSync('/etc/letsencrypt/live/pinguilock.tk/cert.pem')
 }, app).listen(443);
 
-app.setup(httpsServer);
-
 const httpServer = app.listen(port);
+
+app.setup(httpsServer);
+app.setup(httpServer);
 
 process.on('unhandledRejection', (reason, p) =>
   logger.error('Unhandled Rejection at: Promise ', p, reason)
