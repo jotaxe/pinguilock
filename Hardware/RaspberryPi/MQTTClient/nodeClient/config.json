@@ -13,8 +13,8 @@
             "username": "api",
             "password": "123456"
         },
-        "apiUrl": "http://18.191.188.122:3030",
-        "localApi": "http://localhost:3031",
+        "apiUrl": "http://18.191.188.122:3131",
+        "localApi": "http://pinguilock.local",
         "mqtt": "mqtt://18.191.188.122"
     }
 }

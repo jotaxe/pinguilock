@@ -14,8 +14,9 @@
             "username": "api",
             "password": "123456"
         },
-        "apiUrl": "http://18.191.188.122",
-        "localApi": "http://localhost:3031",
-        "mqtt": "mqtt://18.191.188.122"
+        "apiUrl": "http://18.191.188.122:3131",
+        "localApi": "http://pinguilock.local",
+        "mqtt": "mqtt://18.191.188.122",
+        "camTopic": "cam0"
     }
 }

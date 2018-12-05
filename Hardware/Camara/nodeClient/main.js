@@ -90,42 +90,35 @@ client.on('message', async (topic, message) => {
             var faceInt = setInterval( async () => {
                 await camera.readAsync(async (err, frame) => {
                     if (err) throw err;
-                    var outB64 = await cv.imencodeAsync('.jpg', frame);
-                        outB64 = outB64.toString('base64');
-                        const srcImg = getBinary(outB64);
-                        const data = {
+                    const options = {
+                        minSize: new cv.Size(100, 100),
+                        scaleFactor: 1.2,
+                        minNeighbors: 10
+                    };
+                    const facesInFrame = await classifier.detectMultiScaleAsync(frame, options);
+                    const {objects, numDetections} = facesInFrame;
+                    if(!objects.length){
+                        console.log("No face detected");
+                    }else{
+                        const getData = {
                             method: 'GET',
                             headers: {
                                 'Authorization': localStorage.getItem('accessToken'),
                                 'Accept': 'application/json',
                                 'Content-Type': 'application/json'
                             }
-                        };
-                        const accessReqPatch = {
-                            method: 'PATCH',
-                            headers: {
-                                'Authorization': localStorage.getItem('accessToken'),
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                successfull: access,
-                                imgUri: "data:image/jpeg;base64," + outB64
-                            })
-                        }
-                    const options = {
-                        minSize: new cv.Size(100, 100),
-                        scaleFactor: 1.2,
-                        minNeighbors: 10
-                    };
-
-                    const facesInFrame = await classifier.detectMultiScaleAsync(frame, options);
-                    const {objects, numDetections} = facesInFrame;
-                    if(!objects.length){
-                        console.log("No face detected");
-                    }else{
-                        
-                        const targImg = getBinary(access_image.split('base64,')[1])
+                        };    
+                        var outB64 = await cv.imencodeAsync('.jpg', frame);
+                        outB64 = outB64.toString('base64');
+                        const srcImg = getBinary(outB64);
+                        const res = await fetch(`${conf.apiUrl}/key/${jsonMessage.id}`, getData);
+                        const key = await res.json();
+                        const imgRes = fetch(`${conf.apiUrl}/uploads/${key.image_path}`, getData);
+                        const keyImage = await imgRes.json();
+                        const targImg = getBinary(keyImage.uri.split('base64,')[1]);
+                        const lockRes = await fetch(`${conf.apiUrl}/lock/${key.lock_id}`, getData);
+                        const lock = await lockRes.json();
+                        const localServer = await localApp.service('mqtt-info').get(1);
                         const params = {
                             SimilarityThreshold: 90,
                             SourceImage: {
@@ -135,22 +128,21 @@ client.on('message', async (topic, message) => {
                                 Bytes: targImg
                             }
                         }
-
+                        var access = 0;
                         rekognition.compareFaces(params, (err, data) => {
                             if(err){
                                 console.log(err);
                             }else{
-                                var access = 0;
                                 if(data.FaceMatches.length > 0){
                                     access = 1;
                                 }else{
                                     access = 0;
                                 }
-                                cv.imwrite(`./images/accessRequest${jsonMessage.accessId}.jpg`, frame);
-                                client.publish(`${localServer.device_name}/${lock.topic}`, access)
-                                await fetch(`${conf.apiUrl}/access-request/${jsonMessage.accessId}`, accessReqPatch);
                             }
                         });
+                        cv.imwrite(`./images/accessRequest${jsonMessage.accessId}.jpg`, frame);
+                        client.publish(`${localServer.device_name}/${lock.topic}`, access)
+                        await fetch(`${conf.apiUrl}/access-request/${jsonMessage.accessId}`, accessReqPatch);
                         
                     }
                 })
