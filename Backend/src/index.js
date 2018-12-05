@@ -12,7 +12,7 @@ const opt = {
 }
 const server = https.createServer(opt, app).listen(443);
 app.setup(server)
-
+app.listen(3030);
 
 
 process.on('unhandledRejection', (reason, p) =>
