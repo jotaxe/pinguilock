@@ -42,7 +42,7 @@ app.use('/assingOTP/*', express.static(app.get('public')));
 
 // Set up Plugins and providers
 app.configure(express.rest());
-app.configure(socketio());
+app.configure(socketio({path: "18.191.188.122"}));
 
 app.configure(sequelize);
 
