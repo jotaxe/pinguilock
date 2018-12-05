@@ -1,23 +1,21 @@
 import { AsyncStorage } from "react-native";
-const feathers = require('@feathersjs/feathers');
-const rest = require('@feathersjs/rest-client');
-const auth = require('@feathersjs/authentication-client')
-const client = feathers();
 
-// Connect to a different URL
-const restClient = rest('http://18.191.188.122:80/')
-
-// Configure an AJAX library (see below) with that client 
-client.configure(restClient.fetch(fetch));
-
-client.configure(auth({storage: AsyncStorage}));
+const url = "https://www.pinguilock.tk";
 
 
 export function authenticate(googleToken){
-    return Promise.resolve(client.authenticate({
-        strategy: "google-token",
-        access_token: googleToken
-    }));
+    return Promise.resolve(
+        fetch(`${url}/authentication`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                strategy: 'google-token',
+                accessToken: googleToken
+            })
+        })
+    );
 }
 
 export function fetchUserOTP(userGoogleId){

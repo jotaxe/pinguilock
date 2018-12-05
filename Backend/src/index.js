@@ -13,9 +13,10 @@ const opt = {
   cert: fs.readFileSync('/etc/letsencrypt/live/pinguilock.tk/cert.pem')
 }
 const server = https.createServer(opt, app).listen(443);
-
+const httpServ = http.createServer(app).listen(80);
+app.setup(httpServ);
 app.setup(server)
-app.listen(port, "18.191.188.122");
+
 
 
 
