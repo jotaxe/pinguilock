@@ -4,7 +4,7 @@ import socketio from '@feathersjs/socketio-client';
 import { AsyncStorage } from "react-native";
 import auth from '@feathersjs/authentication-client';
 
-const socket = io('http://www.pinguilock.tk', {
+const socket = io('https://www.pinguilock.tk', {
   transports: ['websocket'],
   forceNew: true
 });

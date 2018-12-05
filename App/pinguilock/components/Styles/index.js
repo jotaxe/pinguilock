@@ -20,8 +20,9 @@ export default styles = StyleSheet.create({
     },
     modal: {
     justifyContent: 'center',
-    height: 250,
-    backgroundColor: 'white'
+    height: 300,
+    backgroundColor: 'white',
+    borderRadius: 10,
     //alignItems: 'center'
   },
   boton: {
@@ -33,22 +34,47 @@ export default styles = StyleSheet.create({
     height:80,
     backgroundColor:'#f77613',
     borderRadius:80,
-    left: 0,
-    bottom: 0,
+    left: 10,
+    bottom: 10,
     position: 'absolute',
   },
   enviar: {
     backgroundColor: '#f77613',
     color: 'white',
-    margin: 20
+    margin: 1,
+    borderRadius: 5,
+    height:50,
+    width:100,
+    textAlign: 'center',
+    paddingTop:10,
+    fontSize:20
   },
   cerrar: {
     backgroundColor: 'white',
     color: 'black',
-    margin: 20
+    margin: 1,
+    borderRadius: 50,   
+    height:50,
+    width:100,
+    textAlign: 'center',
+    paddingTop:10,
+    fontSize:20,
+    right: 20
   },
   tituloModal: {
       textAlignVertical: 'top',
-      textAlign: 'center'
+      textAlign: 'center',
+      fontSize:20
   },
+  email: {
+      height: 40, 
+      borderColor: 'white', 
+      borderWidth: 1,
+      backgroundColor: "white",
+  },
+  sendCancel: {
+      left: 50,
+      justifyContent: 'space-evenly',
+      flexDirection: 'row'
+  }
 });
