@@ -20,10 +20,10 @@ export default class Access extends Component {
   }
   componentDidMount(){
     Promise.resolve(getDevices()).then((devData) => {
-      this.setState({devices: devData.data});
+      this.setState({devices: devData});
     })
     Promise.resolve(getPairs()).then((PairData) => {
-      this.setState({pairs: PairData.data});
+      this.setState({pairs: PairData});
     })
 
     Promise.resolve(getMQTTInfo()).then((devData) => {
