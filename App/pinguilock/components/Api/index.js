@@ -4,8 +4,9 @@ import socketio from '@feathersjs/socketio-client';
 import { AsyncStorage } from "react-native";
 import auth from '@feathersjs/authentication-client';
 
-const socket = io('http://www.pinguilock.tk', {
+const socket = io('18.191.188.122', {
   transports: ['websocket'],
+  rekectUnauthorized: false,
   forceNew: true
 });
 const client = feathers();

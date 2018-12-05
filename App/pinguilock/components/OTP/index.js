@@ -67,7 +67,8 @@ export default class Codigos extends Component{
     }
   }
 
-  // componentDidMount() {
+  // componentDidMount = () => {
+    
   // }
 
 
