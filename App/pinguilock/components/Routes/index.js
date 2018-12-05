@@ -68,6 +68,9 @@ const StackNavigator = createStackNavigator({
     }
 },{
     initialRouteName: "Login",
+    navigationOptions: {
+        header: null
+    }
 });
 
 export default StackNavigator;

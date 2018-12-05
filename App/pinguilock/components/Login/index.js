@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight
+  TouchableHighlight,
+  Image
 } from 'react-native';
 import GoogleSignIn from 'react-native-google-sign-in';
 import {authenticate} from "../Api";
@@ -15,6 +16,11 @@ export default class LoginScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+      <Image
+          style={{width: 100, height: 100, left: 0, top: 0}}
+          source={require('../Styles/pinguilock.png')}
+
+        />
         <Text style={styles.welcome}>
           Login Screen
         </Text>
