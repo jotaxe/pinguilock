@@ -16,11 +16,11 @@ module.exports = function (options = {}) {
         
         const faceQuery = {
           query: {
-            key_id: accessKey.data[0].id 
+            key_id: accessKey[0].id 
           }
         }
         const face = await context.app.service('face').find({faceQuery});
-        context.result.face = face.data[0].image_path;
+        context.result.face = face[0].image_path;
 
       }else if (context.result.method === 'OTP'){
         const otp = context.app.service('otp').get(context.result.otp_id)
