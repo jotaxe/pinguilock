@@ -10,7 +10,7 @@ module.exports = function (options = {}) {
       subject: "Your new OTP code is ready!",
       html: `<p>Your OTP Code is ready to link <a href="https://www.pinguilock.tk/assingOTP/${context.result.id}"> here!</a></p>`
     }
-    context.app.service('mailer').create(email);
+    await context.app.service('mailer').create(email);
     return context;
   };
 };
