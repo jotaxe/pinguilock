@@ -9,7 +9,7 @@ module.exports = function (options = {}) {
       context.result.name = extLockInfo.name;
       context.result.lock_topic = extLockInfo.topic;
     }else {
-      const extLockIds = context.result.data.map(device => device.ext_lock_id);
+      const extLockIds = context.result.map(device => device.ext_lock_id);
       const extLocks = await extApp.service('lock').find({
         query: {
           id: {
@@ -20,8 +20,8 @@ module.exports = function (options = {}) {
       console.log(extLocks);
       context.result.data.map( async (device, index) => {
         const extLock = await extLocks.find(lock => lock.id === parseInt(device.ext_lock_id));
-        context.result.data[index].name = extLock ? extLock.name : 0;
-        context.result.data[index].lock_topic = extLock ? extLock.topic : 0;
+        context.result[index].name = extLock ? extLock.name : 0;
+        context.result[index].lock_topic = extLock ? extLock.topic : 0;
       });
     }
     return context;
