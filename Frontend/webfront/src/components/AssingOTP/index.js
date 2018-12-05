@@ -58,7 +58,7 @@ export default class AssingOTP extends Component {
 
     
     loginAction = () => {
-        window.location.href = 'http://localhost:3030/auth/google';
+        window.location.href = 'http://www.pinguilock.tk/auth/google';
     }
 
     sendRequest = () => {
