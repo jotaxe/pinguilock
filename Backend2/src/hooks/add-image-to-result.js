@@ -5,10 +5,9 @@
 module.exports = function (options = {}) {
   return async context => {
     if(context.method === 'find'){
-      context.result.data.map(async (accessRequest, index) => {
+      context.result.map(async (accessRequest, index) => {
         const imageUri =  await context.app.service('uploads').get(accessRequest.access_image);
-        context.result.data[index].imageUri = imageUri.uri;
-        context.result.data[index].test = "este si aparece";
+        context.result[index].imageUri = imageUri.uri;
       });
     }else{
       const imageUri = await context.app.service('uploads').get(context.result.access_image);  

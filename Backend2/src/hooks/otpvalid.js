@@ -13,7 +13,7 @@ module.exports = function (options = {}) {
       }
     }).then(result => {
       var current_date = new Date();
-      var otptimeout = result.data[0].timeout;
+      var otptimeout = result[0].timeout;
 
       if (otptimeout.getTime()<=current_date.getTime()){
         const data = {
