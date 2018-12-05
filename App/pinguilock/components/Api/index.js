@@ -1,21 +1,24 @@
+import io from 'socket.io-client';
+import feathers from '@feathersjs/feathers';
+import socketio from '@feathersjs/socketio-client';
 import { AsyncStorage } from "react-native";
+import auth from '@feathersjs/authentication-client';
 
-const url = "https://www.pinguilock.tk";
+const socket = io('http://18.191.188.122:3131', {
+  transports: ['websocket'],
+  forceNew: true
+});
+const client = feathers();
+
+client.configure(socketio(socket));
+client.configure(auth({storage: AsyncStorage}));
 
 
 export function authenticate(googleToken){
-    return Promise.resolve(
-        fetch(`${url}/authentication`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                strategy: 'google-token',
-                accessToken: googleToken
-            })
-        })
-    );
+    return Promise.resolve(client.authenticate({
+        strategy: "google-token",
+        access_token: googleToken
+    }));
 }
 
 export function fetchUserOTP(userGoogleId){
