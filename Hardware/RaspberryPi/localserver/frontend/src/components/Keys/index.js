@@ -17,7 +17,7 @@ export default class Key extends Component {
   }
   componentDidMount(){
     Promise.resolve(getKeys()).then((keyData) => {
-      this.setState({keyList: keyData.data});
+      this.setState({keyList: keyData});
     });    
     app.service('key').on('created', (newKey) => {
       this.setState((prevState) => {

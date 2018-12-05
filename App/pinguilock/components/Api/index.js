@@ -6,7 +6,7 @@ import auth from '@feathersjs/authentication-client';
 
 const socket = io('18.191.188.122', {
   transports: ['websocket'],
-  rekectUnauthorized: false,
+  rejectUnauthorized: false,
   forceNew: true
 });
 const client = feathers();

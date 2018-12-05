@@ -26,7 +26,7 @@ export default class OTP extends Component {
   }
   componentDidMount(){
     Promise.resolve(getOTPs()).then((otpData) => {
-      this.setState({otpList: otpData.data});
+      this.setState({otpList: otpData});
     });    
     app.service('otp').on('created', (newOtp) => {
       this.setState((prevState) => {
