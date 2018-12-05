@@ -18,10 +18,12 @@ module.exports = function (options = {}) {
       });
       context.result ? context.result.map((key, index) => {
         const face = faces.find((face) => face.key_id === key.id);
-        context.result[index].image_path = face.image_path;
+        const imageUri = await context.app.service('uploads').get(face.image_path);  
+        context.result[index].imageUri = imageUri.uri;
       }) : null;
       
     }
     return context;
   };
 };
+
