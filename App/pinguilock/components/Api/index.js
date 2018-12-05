@@ -1,17 +1,15 @@
-import io from 'socket.io-client';
-import feathers from '@feathersjs/feathers';
-import socketio from '@feathersjs/socketio-client';
 import { AsyncStorage } from "react-native";
-import auth from '@feathersjs/authentication-client';
-
-const socket = io('18.191.188.122', {
-  transports: ['websocket'],
-  rejectUnauthorized: false,
-  forceNew: true
-});
+const feathers = require('@feathersjs/feathers');
+const rest = require('@feathersjs/rest-client');
+const auth = require('@feathersjs/authentication-client')
 const client = feathers();
 
-client.configure(socketio(socket));
+// Connect to a different URL
+const restClient = rest('https://18.191.188.122/')
+
+// Configure an AJAX library (see below) with that client 
+client.configure(restClient.fetch(fetch));
+
 client.configure(auth({storage: AsyncStorage}));
 
 

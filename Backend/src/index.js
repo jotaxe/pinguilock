@@ -10,9 +10,10 @@ const opt = {
   key: fs.readFileSync('/etc/letsencrypt/live/pinguilock.tk/privkey.pem'),
   cert: fs.readFileSync('/etc/letsencrypt/live/pinguilock.tk/cert.pem')
 }
+app.listen(port);
 const server = https.createServer(opt, app).listen(443);
-app.setup(server)
-app.listen(3030);
+app.setup(server);
+
 
 
 process.on('unhandledRejection', (reason, p) =>
