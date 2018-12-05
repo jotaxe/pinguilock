@@ -4,6 +4,7 @@
 // eslint-disable-next-line no-unused-vars
 module.exports = function (options = {}) {
   return async context => {
+    console.log(context.result);
     const email = {
       to: `${context.result.reciever_email}`,
       subject: "Your new OTP code is ready!",
