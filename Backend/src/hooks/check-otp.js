@@ -17,20 +17,20 @@ module.exports = function (options = {}) {
       }
     }else if(context.method === 'find'){
       console.log(context.result);
-      const timedOutOTP = context.result.data ? context.result.data.map((otp, index) => {
+      const timedOutOTP = context.result ? context.result.map((otp, index) => {
         if( (actualDate > otp.timeout) && (otp.status !== 'timedout' && otp.status !== 'inactive') ){
-          delete context.result.data[index].status;
-          delete context.result.data[index].secret_code;
-          context.result.data[index].status = 'timedout';
+          delete context.result[index].status;
+          delete context.result[index].secret_code;
+          context.result[index].status = 'timedout';
           return otp.id;
         } else if(otp.status !== 'active'){
-          delete context.result.data[index].secret_code;
+          delete context.result[index].secret_code;
           if(otp.status === 'inactive'){
-            delete context.result.data[index];
+            delete context.result[index];
           }
         }
       }): [];
-      context.result.data = context.result.data ? context.result.data.filter((otp) => {return otp !== null}) : null; 
+      context.result = context.result ? context.result.filter((otp) => {return otp !== null}) : null; 
       if(timedOutOTP !== []){
         context.app.service('otp').patch(null, {status: 'timedout'}, {
           query: {
