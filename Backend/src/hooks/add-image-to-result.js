@@ -4,17 +4,6 @@
 // eslint-disable-next-line no-unused-vars
 module.exports = function (options = {}) {
   return async context => {
-    if(context.method === 'find'){
-      context.result.map(async (accessRequest, index) => {
-        console.log(accessRequest);
-        const imageUri =  await context.app.service('uploads').get(accessRequest.access_image);
-        context.result[index].imageUri = imageUri.uri;
-      });
-    }else{
-      console.log(accessRequest);
-      const imageUri = await context.app.service('uploads').get(context.result.access_image);  
-      context.result.imageUri = imageUri.uri;
-    }
     return context;
   };
 };

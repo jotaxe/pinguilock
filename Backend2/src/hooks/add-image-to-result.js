@@ -11,7 +11,7 @@ module.exports = function (options = {}) {
         context.result[index].imageUri = imageUri.uri;
       });
     }else{
-      console.log(accessRequest);
+      console.log(context.result);
       const imageUri = await context.app.service('uploads').get(context.result.access_image);  
       context.result.imageUri = imageUri.uri;
     }

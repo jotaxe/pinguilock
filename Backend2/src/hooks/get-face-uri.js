@@ -6,7 +6,8 @@ module.exports = function (options = {}) {
   return async context => {
     if(context.method === 'get'){
       const face = await context.app.service('face').find({query: {key_id: context.result.id}});
-      context.result.image_path = face[0].image_path;
+      const imageUri = await context.app.service('uploads').get(face[0].image_path); 
+      context.result.imageUri = imageUri.uri;
     }else if(context.method === 'find'){
       const keysId = context.result ? context.result.map((key) => {return key.id}) : [];
       const faces = await context.app.service('face').find({
