@@ -5,7 +5,7 @@
   "paginate": {},
   "nedb": "../data",
   "externalApi": {
-    "url": "https://www.pinguilock.tk",
+    "url": "http://www.pinguilock.tk",
     "credentials":{
       "username":"api",
       "password":"123456"
