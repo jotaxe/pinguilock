@@ -52,11 +52,7 @@ class KeyCard extends Component {
         getUserName(this.props.cardKey.user_id).then((user) => {
             this.setState({userName: user.name});
         })
-        console.log(this.props.cardKey.image_path);
-        await app.service('uploads').get(this.props.cardKey.image_path).then( (res) => {
-            console.log(res);
-            this.setState({avatarUri: res.uri})
-        })
+        this.setState({avatarUri: this.props.cardKey.imageUri})
     }
 
 
