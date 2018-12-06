@@ -70,7 +70,6 @@ client.on('message', async (topic, message) => {
     const accessRequestId = messageObject.accessRequest;
     const response = await fetch(`${conf.apiUrl}/access-request/${accessRequestId}`, data);
     const accessRequest = await response.json();
-    console.log(accessRequest);
     const {method, lock_id} = accessRequest;
     let otpId, keyId;
     if(method === 'Face'){
@@ -81,7 +80,7 @@ client.on('message', async (topic, message) => {
     const localDevice = await localApp.service('devices').find({query: {ext_lock_id: lock_id}});
     const localServerName = await localApp.service('mqtt-info').get(1);
     const camTopic = `${localServerName.device_name}/${localDevice[0].cam_topic}`;
-    
+    console.log(camTopic);
     const camMessage = JSON.stringify({
         accessId: accessRequest.id,
         method: method, 
