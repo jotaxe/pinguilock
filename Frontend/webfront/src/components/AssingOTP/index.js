@@ -64,9 +64,9 @@ export default class AssingOTP extends Component {
     sendRequest = () => {
         const {otp} = this.state;
         const user = JSON.parse(localStorage.getItem('user'))
-        app.service('access-request').create({user_id: user.id, 
-            lock_id: 
-            otp.lock_id, 
+        app.service('access-request').create({
+            user_id: user.id, 
+            lock_id: otp.lock_id, 
             otp_id: otp.id, 
             method: "OTP"
         }).then( () => {

@@ -6,6 +6,7 @@ var Jimp = require("jimp");
 var QrCode = require('qrcode-reader');
 var qr = new QrCode();
 
+const atob = require('atob');
 function getBinary(encodedFile) {
     var binaryImg = atob(encodedFile);
     var length = binaryImg.length;
@@ -97,7 +98,7 @@ client.on('message', async (topic, message) => {
                     };
                     const facesInFrame = await classifier.detectMultiScaleAsync(frame, options);
                     const {objects, numDetections} = facesInFrame;
-                    if(!objects.length){
+                    if(objects.length === 0){
                         console.log("No face detected");
                     }else{
                         const getData = {
@@ -113,9 +114,7 @@ client.on('message', async (topic, message) => {
                         const srcImg = getBinary(outB64);
                         const res = await fetch(`${conf.apiUrl}/key/${jsonMessage.id}`, getData);
                         const key = await res.json();
-                        const imgRes = fetch(`${conf.apiUrl}/uploads/${key.image_path}`, getData);
-                        const keyImage = await imgRes.json();
-                        const targImg = getBinary(keyImage.uri.split('base64,')[1]);
+                        const targImg = getBinary(key.imageUri.split('base64,')[1]);
                         const lockRes = await fetch(`${conf.apiUrl}/lock/${key.lock_id}`, getData);
                         const lock = await lockRes.json();
                         const localServer = await localApp.service('mqtt-info').get(1);
@@ -129,27 +128,42 @@ client.on('message', async (topic, message) => {
                             }
                         }
                         var access = 0;
-                        rekognition.compareFaces(params, (err, data) => {
-                            if(err){
-                                console.log(err);
-                            }else{
-                                if(data.FaceMatches.length > 0){
-                                    access = 1;
+                        const faces = await new Promise((resolve, reject) => {
+                            rekognition.compareFaces(params, (err, data) => {
+                                if(err){
+                                    reject(err)
                                 }else{
-                                    access = 0;
+                                    resolve(data)
                                 }
-                            }
+                            });
                         });
-                        cv.imwrite(`./images/accessRequest${jsonMessage.accessId}.jpg`, frame);
-                        client.publish(`${localServer.device_name}/${lock.topic}`, access)
-                        await fetch(`${conf.apiUrl}/access-request/${jsonMessage.accessId}`, accessReqPatch);
+                        if(faces.FaceMatches.length > 0){
+                            access = 1;
+                        }
                         
+                        const accessReqPatch = {
+                            method: 'PATCH',
+                            headers: {
+                                'Authorization': localStorage.getItem('accessToken'),
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                successfull: access,
+                                imgUri: "data:image/jpeg;base64," + outB64
+                            })
+                        }
+                        await fetch(`${conf.apiUrl}/access-request/${jsonMessage.accessId}`, accessReqPatch);
+                        console.log("Log created.");
+                        await clearInterval(faceInt)
+                        console.log(`Publishing ${access} to ${localServer.device_name}/${lock.topic}`);
+                        client.publish(`${localServer.device_name}/${lock.topic}`, access)
                     }
                 })
-            }, 600);
-            setTimeout(() => {
+            }, 2000);
+            setTimeout(async () => {
                 console.log("Waiting 8 sec after terminate.");
-                clearInterval(faceInt)
+                await clearInterval(faceInt)
             }, 8000);
 
         case "OTP":
@@ -216,16 +230,16 @@ client.on('message', async (topic, message) => {
                     }
                     await fetch(`${conf.apiUrl}/access-request/${jsonMessage.accessId}`, accessReqPatch);
                     console.log("Log created.");
-                    clearInterval(otpInt)
+                    await clearInterval(otpInt)
                     console.log(`Publishing ${access} to ${localServer.device_name}/${lock.topic}`);
                     client.publish(`${localServer.device_name}/${lock.topic}`, access)
                 }
                 
             });
         }, 600);
-        setTimeout(() => {
+        setTimeout(async () => {
             console.log("Waiting 8 sec after terminate.");
-            clearInterval(otpInt)
+            await clearInterval(otpInt)
         }, 8000);
             break;
     
