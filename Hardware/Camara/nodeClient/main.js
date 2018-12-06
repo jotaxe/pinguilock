@@ -7,6 +7,7 @@ var QrCode = require('qrcode-reader');
 var qr = new QrCode();
 
 const atob = require('atob');
+
 function getBinary(encodedFile) {
     var binaryImg = atob(encodedFile);
     var length = binaryImg.length;
